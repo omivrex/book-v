@@ -83,7 +83,7 @@ const CustButton = ({ children, type, style, onPress, color, width, size }: prop
         case "close":
             return (
                 <TouchableOpacity onPress={onPress}>
-                    <Ionicons name="ios-close-outline" style={styles.closeButn} size={size || hp(6)} color={color} />
+                    <Ionicons name="close" style={styles.closeButn} size={size || hp(6)} color={color} />
                 </TouchableOpacity>
             );
         case "rounded":

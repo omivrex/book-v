@@ -1,0 +1,28 @@
+const colors = {
+    green: "#1DD3B0",
+    lightGreen: "#C6FFC8",
+    blue: "#2A60F1",
+    lightBlue: "#E3EEFF",
+    lightRed: "#EB29311A",
+    lightYellow: "#FFEB7D",
+    yellow: "#FF900D",
+    yellow2: "#FFB800",
+    orange: "#FF7152",
+    lightOrange: "rgba(255, 113, 82, 0.2)",
+    purple: "#9452FF",
+    lightPurple: "#9452FF4D",
+    grey: "#F8F8F8",
+    grey2: "#F4F4F4",
+    grey3: "#E3E3E391",
+    grey4: "#8D8B8B",
+    grey5: "#444444",
+    grey6: "#6A6868",
+    grey7: "#191919",
+    grey8: "#141414",
+    grey9: "#0F0F0F",
+    red: "#D5291E",
+    white: "#FFFFFF",
+    black: "#000000",
+};
+
+export default colors;

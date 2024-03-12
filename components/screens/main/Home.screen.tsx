@@ -13,14 +13,14 @@ import DefaultProfileImage from "../../../assets/images/user-icon.jpg";
 const data = [
     {
         name: "",
-        population: 5,
+        days: 5,
         color: colors.yellow,
         legendFontColor: colors.grey4,
         legendFontSize: hp("1.7%"),
     },
     {
         name: "",
-        population: 10,
+        days: 30,
         color: "green",
         legendFontColor: colors.grey4,
         legendFontSize: hp("1.7%"),
@@ -68,10 +68,10 @@ const HomeScreen = ({ navigation }: props) => {
                         width={wp("100%")}
                         height={hp("35%")}
                         chartConfig={chartConfig}
-                        accessor={"population"}
+                        accessor={"days"}
                         backgroundColor={"transparent"}
                         paddingLeft={"15"}
-                        center={[75, 0]}
+                        center={[62.5, 0]}
                         hasLegend={false}
                         absolute
                     />
@@ -80,13 +80,13 @@ const HomeScreen = ({ navigation }: props) => {
                     <View>
                         <TextComponent fontSize={hp("1.5%")}>Booked days</TextComponent>
                         <TextComponent color={colors.yellow} type="h3">
-                            07
+                            05
                         </TextComponent>
                     </View>
                     <View>
                         <TextComponent fontSize={hp("1.5%")}>Free Days</TextComponent>
                         <TextComponent color={colors.green} type="h3">
-                            20
+                            25
                         </TextComponent>
                     </View>
                 </View>

@@ -26,6 +26,24 @@
                 "backgroundColor": "#ffffff"
             }
         },
+        "plugins": [
+            "@react-native-firebase/app",
+            "@react-native-firebase/auth",
+            [
+                "expo-build-properties",
+                {
+                    "ios": {
+                        "useFrameworks": "static",
+                        "deploymentTarget": "13.4"
+                    },
+                    "android": {
+                        "compileSdkVersion": 33,
+                        "targetSdkVersion": 33,
+                        "buildToolsVersion": "33.0.0"
+                    }
+                }
+            ]
+        ],
         "web": {
             "favicon": "./assets/favicon.png"
         },

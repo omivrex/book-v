@@ -24,9 +24,9 @@ const LoginScreen = ({ navigation }: props) => {
         <Container>
             <View style={styles.header}>
                 <TextComponent type="h1">
-                    Tev
+                    Book
                     <TextComponent type="h1" color={colors.yellow}>
-                        cab
+                        -V
                     </TextComponent>
                 </TextComponent>
             </View>
@@ -37,17 +37,16 @@ const LoginScreen = ({ navigation }: props) => {
                         Welcome !
                     </TextComponent>
                     <TextComponent type="plain-light" fontSize={hp("1.8%")}>
-                        Lets get you started as a Tev
+                        Lets get you started as a Book
                         <TextComponent type="plain-light" fontSize={hp("1.8%")} color={colors.yellow}>
-                            cab
+                            -V
                         </TextComponent>{" "}
-                        driver.
                     </TextComponent>
                 </View>
                 <ScrollContainer>
                     <View style={{ gap: 40, marginTop: "15%" }}>
                         <TextComponent>
-                            Login to Tev<TextComponent color={colors.yellow}>cab</TextComponent>
+                            Login to Book<TextComponent color={colors.yellow}>-V</TextComponent>
                         </TextComponent>
                         <InputComponent
                             type="text"
@@ -68,7 +67,7 @@ const LoginScreen = ({ navigation }: props) => {
                     <View style={{ gap: 5, marginTop: "15%" }}>
                         <View style={{ width: "80%", height: hp("0.1%"), backgroundColor: colors.yellow, alignSelf: "center", marginBottom: "5%" }} />
                         <TextComponent style={{ fontSize: hp("1.5%") }} center>
-                            By signing in you agree to Tevcab
+                            By signing in you agree to Book-V
                         </TextComponent>
                         <TextComponent type="plain-light" style={{ fontSize: hp("1.5%") }} center>
                             Terms & Conditions Privacy Policy & Associated Risks
@@ -77,7 +76,7 @@ const LoginScreen = ({ navigation }: props) => {
                 </ScrollContainer>
                 <CustButton onPress={() => null} color={colors.yellow}>
                     <TextComponent type="plain-bold" color={colors.black}>
-                        {true ? "Loading..." : "Sign In"}
+                        {"Sign In"}
                     </TextComponent>
                 </CustButton>
             </InnerWrapper>

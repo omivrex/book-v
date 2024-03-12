@@ -48,15 +48,9 @@ const SignupScreen = ({ navigation, route }: props) => {
                 <ScrollView keyboardShouldPersistTaps={"always"} style={{ marginTop: "20%", width: "100%", paddingHorizontal: "5%" }}>
                     <View>
                         <TextComponent type="h2">Lets get more information</TextComponent>
-                        <TextComponent fontSize={hp("1.5%")}>Here are list of drivers option for drivers in tevcab</TextComponent>
-                    </View>
-                    <View style={{ flexDirection: "row", width: "100%", marginVertical: "10%", justifyContent: "space-between" }}>
-                        <View style={{ height: hp("1%"), width: "50%", backgroundColor: colors.yellow, borderRadius: 20 }} />
-                        <View style={{ height: hp("1%"), width: "20%", backgroundColor: colors.grey3, borderRadius: 20 }} />
-                        <View style={{ height: hp("1%"), width: "20%", backgroundColor: colors.grey3, borderRadius: 20 }} />
                     </View>
 
-                    <View style={{ gap: 30 }}>
+                    <View style={{ gap: 30, marginVertical: "10%" }}>
                         <InputComponent
                             style={{ color: colors.yellow }}
                             placeholder="Enter your full name "
@@ -77,7 +71,8 @@ const SignupScreen = ({ navigation, route }: props) => {
                             placeholder="Provide a password"
                         />
                         <GooglePlacesAutocomplete
-                            placeholder="City where you can drive   "
+                            placeholder=""
+                            textInputProps={{ placeholder: "Enter your business location", placeholderTextColor: colors.grey4 }}
                             ref={palceApi as Ref<GooglePlacesAutocompleteRef>}
                             query={{
                                 key: process.env.EXPO_PUBLIC_PLACES_API_KEY,

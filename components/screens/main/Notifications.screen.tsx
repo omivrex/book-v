@@ -2,7 +2,7 @@ import { View } from "react-native";
 import Container from "../../reusables/Containers.component";
 import TextComponent from "../../reusables/Text.component";
 
-const SettingScreen = () => {
+const NotificationScreen = () => {
     return (
         <Container>
             <View>
@@ -12,4 +12,4 @@ const SettingScreen = () => {
     );
 };
 
-export default SettingScreen;
+export default NotificationScreen;

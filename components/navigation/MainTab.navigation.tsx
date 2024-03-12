@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SettingsIcon from "../../assets/vectors/settings.svg";
 import { Image } from "react-native";
 import BookingScreen from "../screens/main/Bookings.screen";
-import SettingScreen from "../screens/main/Settings.screen";
+import NotificationScreen from "../screens/main/Notifications.screen";
 
 const Tab = createBottomTabNavigator<MainTabNavType>();
 
@@ -109,8 +109,8 @@ const MainTabNav = () => {
                         );
                     },
                 }}
-                name="Settings"
-                component={SettingScreen}
+                name="Notifications"
+                component={NotificationScreen}
             />
         </Tab.Navigator>
     );

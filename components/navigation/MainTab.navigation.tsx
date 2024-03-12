@@ -96,9 +96,9 @@ const MainTabNav = () => {
                     tabBarIcon: ({ focused }) => {
                         switch (focused) {
                             case true:
-                                return <SettingsIcon color={colors.yellow} width={hp("3%")} height={hp("3%")} />;
+                                return <Ionicons name="notifications" color={colors.yellow} size={hp("3%")} />;
                             default:
-                                return <SettingsIcon color={colors.grey5} width={hp("2%")} height={hp("2%")} />;
+                                return <Ionicons name="notifications" color={colors.grey5} size={hp("2%")} />;
                         }
                     },
                     tabBarLabel: ({ focused, children }) => {

@@ -51,17 +51,6 @@ const BookingScreen = () => {
         ],
     };
 
-    const renderItem = ({ item }: any) => {
-        return (
-            <View style={{ backgroundColor: colors.yellow, padding: "5%", marginVertical: "5%" }}>
-                <TextComponent color={colors.white}>{item.name}</TextComponent>
-                <TextComponent color={colors.white} fontFamily="Poppins_300Light">
-                    {item.description}
-                </TextComponent>
-            </View>
-        );
-    };
-
     return (
         <Container>
             <View>
@@ -86,7 +75,23 @@ const BookingScreen = () => {
                         return (
                             <FlatList
                                 data={items ? items[moment(selectedDay).format("YYYY-MM-DD")] : []}
-                                renderItem={renderItem}
+                                renderItem={({ item }) => (
+                                    <View
+                                        style={{
+                                            backgroundColor: colors.yellow,
+                                            padding: "5%",
+                                            marginVertical: "5%",
+                                            alignSelf: "center",
+                                            width: "90%",
+                                            borderRadius: 16,
+                                        }}
+                                    >
+                                        <TextComponent color={colors.white}>{item.name}</TextComponent>
+                                        <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
+                                            {item.description}
+                                        </TextComponent>
+                                    </View>
+                                )}
                                 keyExtractor={(item, index) => index.toString()}
                                 style={{
                                     backgroundColor: colors.black,

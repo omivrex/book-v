@@ -24,6 +24,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainTabNav from "./components/navigation/MainTab.navigation";
+import RootStack from "./components/navigation/RootStack.navigation";
 
 const queryClient = new QueryClient();
 
@@ -54,7 +55,7 @@ export default function App() {
             <RootSiblingParent>
                 <NavigationContainer>
                     <QueryClientProvider client={queryClient}>
-                        <MainTabNav />
+                        <RootStack />
                         <StatusBar style="light" translucent={true} />
                     </QueryClientProvider>
                 </NavigationContainer>

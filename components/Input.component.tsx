@@ -14,7 +14,7 @@ import {
     Switch,
 } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import colors from "../constants/colors.context";
+import colors from "../constants/colors.constant";
 import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Checkbox from "expo-checkbox";
 import TextComponent from "./Text.component";

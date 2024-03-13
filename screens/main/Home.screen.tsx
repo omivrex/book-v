@@ -1,7 +1,7 @@
 import { View, Image } from "react-native";
 import Container from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
-import colors from "../../constants/colors.context";
+import colors from "../../constants/colors.constant";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { LineChart, PieChart } from "react-native-chart-kit";

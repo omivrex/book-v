@@ -1,4 +1,4 @@
-import colors from "../constants/colors.context";
+import colors from "../constants/colors.constant";
 import Toast from "react-native-root-toast";
 import { ImagePickerAsset } from "expo-image-picker";
 import { DocumentPickerSuccessResult } from "expo-document-picker";

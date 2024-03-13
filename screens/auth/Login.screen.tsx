@@ -1,5 +1,5 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../../constants/colors.context";
+import colors from "../../constants/colors.constant";
 import Container, { InnerWrapper, ScrollContainer } from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
 import { InputComponent } from "../../components/Input.component";
@@ -9,6 +9,8 @@ import { AuthStackType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { login } from "../../utilities/auth.utility";
+import { message } from "../../helpers/api.helper";
 
 interface props {
     navigation: NativeStackNavigationProp<AuthStackType, "Signup">;
@@ -18,6 +20,11 @@ const LoginScreen = ({ navigation }: props) => {
     const formDetails = useRef({
         email: "",
         password: "",
+    });
+
+    const { isPending, mutate } = useMutation({
+        mutationFn: () => login(formDetails.current.email, formDetails.current.password),
+        onError: (err: any) => message(err.message, "failure"),
     });
 
     return (
@@ -74,9 +81,9 @@ const LoginScreen = ({ navigation }: props) => {
                         </TextComponent>
                     </View>
                 </ScrollContainer>
-                <CustButton onPress={() => null} color={colors.yellow}>
+                <CustButton onPress={() => mutate()} color={colors.yellow}>
                     <TextComponent type="plain-bold" color={colors.black}>
-                        {"Sign In"}
+                        {isPending ? "Loading..." : "Sign In"}
                     </TextComponent>
                 </CustButton>
             </InnerWrapper>

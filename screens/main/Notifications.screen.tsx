@@ -3,7 +3,7 @@ import Container from "../../components/Containers.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import TextComponent from "../../components/Text.component";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import colors from "../../constants/colors.context";
+import colors from "../../constants/colors.constant";
 import { MainTabNavType } from "../../types/navigation.types";
 import { MaterialIcons } from "@expo/vector-icons";
 

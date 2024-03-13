@@ -1,6 +1,6 @@
 import { StyleSheet, Text, StyleProp, TextStyle } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import colors from "../constants/colors.context";
+import colors from "../constants/colors.constant";
 
 interface propType {
     children?: any;

@@ -2,7 +2,7 @@ import { ScrollView, View } from "react-native";
 import Container, { InnerWrapper, KeyboardView, ScrollContainer } from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import colors from "../../constants/colors.context";
+import colors from "../../constants/colors.constant";
 import { InputComponent } from "../../components/Input.component";
 import CustButton from "../../components/Buttons.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -12,6 +12,9 @@ import { Ref, useRef } from "react";
 import { isValidEmail, isValidPhonenumber } from "../../helpers/validators.helper";
 import { message } from "../../helpers/api.helper";
 import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
+import { useMutation } from "@tanstack/react-query";
+import { SignupDataType } from "../../types/auth.types";
+import { createAccount } from "../../utilities/auth.utility";
 
 interface props {
     navigation: NativeStackNavigationProp<AuthStackType, "Signup">;
@@ -20,12 +23,13 @@ interface props {
 
 const SignupScreen = ({ navigation, route }: props) => {
     const palceApi = useRef<GooglePlacesAutocompleteRef>();
-    const formDetails = useRef({
+    const formDetails = useRef<SignupDataType>({
         fullName: "",
         phone: "",
-        location: undefined,
+        location: null,
         email: "",
         password: "",
+        accountType: "VENDOR",
     });
 
     const next = () => {
@@ -39,8 +43,12 @@ const SignupScreen = ({ navigation, route }: props) => {
             message("Input Your full name", "failure");
         } else if (!formDetails.current.location) {
             message("Enter a city where you want to drive", "failure");
+        } else {
         }
     };
+    const mutation = useMutation({
+        mutationFn: () => createAccount(formDetails.current),
+    });
 
     return (
         <Container>

@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, View, Platform, ViewStyle, StyleProp } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import colors from "../constants/colors.context";
+import colors from "../constants/colors.constant";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { RefreshControl } from "react-native";
 

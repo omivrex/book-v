@@ -2,7 +2,7 @@ import { MainTabNavType } from "../types/navigation.types";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import TextComponent from "../components/Text.component";
-import colors from "../constants/colors.context";
+import colors from "../constants/colors.constant";
 import HomeScreen from "../screens/main/Home.screen";
 import DashboardIcon from "../assets/vectors/dashboard.svg";
 import dashboardFocusedIcon from "../assets/images/dashboard.png";

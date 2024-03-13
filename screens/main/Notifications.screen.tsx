@@ -1,10 +1,10 @@
 import { FlatList, TouchableOpacity, View, StyleSheet } from "react-native";
-import Container from "../../reusables/Containers.component";
+import Container from "../../components/Containers.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import TextComponent from "../../reusables/Text.component";
+import TextComponent from "../../components/Text.component";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import colors from "../../../constants/colors.context";
-import { MainTabNavType } from "../../../types/navigation.types";
+import colors from "../../constants/colors.context";
+import { MainTabNavType } from "../../types/navigation.types";
 import { MaterialIcons } from "@expo/vector-icons";
 
 interface props {

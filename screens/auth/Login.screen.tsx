@@ -1,11 +1,11 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../../../constants/colors.context";
-import Container, { InnerWrapper, ScrollContainer } from "../../reusables/Containers.component";
-import TextComponent from "../../reusables/Text.component";
-import { InputComponent } from "../../reusables/Input.component";
-import CustButton from "../../reusables/Buttons.component";
+import colors from "../../constants/colors.context";
+import Container, { InnerWrapper, ScrollContainer } from "../../components/Containers.component";
+import TextComponent from "../../components/Text.component";
+import { InputComponent } from "../../components/Input.component";
+import CustButton from "../../components/Buttons.component";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { AuthStackType } from "../../../types/navigation.types";
+import { AuthStackType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";

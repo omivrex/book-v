@@ -1,8 +1,8 @@
 import { FlatList, View } from "react-native";
-import Container from "../../reusables/Containers.component";
-import TextComponent from "../../reusables/Text.component";
+import Container from "../../components/Containers.component";
+import TextComponent from "../../components/Text.component";
 import { Agenda } from "react-native-calendars";
-import colors from "../../../constants/colors.context";
+import colors from "../../constants/colors.context";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import moment from "moment";
 import { useState } from "react";

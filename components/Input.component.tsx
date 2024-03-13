@@ -14,7 +14,7 @@ import {
     Switch,
 } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import colors from "../../constants/colors.context";
+import colors from "../constants/colors.context";
 import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Checkbox from "expo-checkbox";
 import TextComponent from "./Text.component";
@@ -78,7 +78,7 @@ const CustTextInput = forwardRef<textInputMethodType, textInputPropType>(
         const styles = StyleSheet.create({
             inputWrapper: {
                 width: "100%",
-                hegiht: "50%",
+                // height: "50%",
                 flexDirection: "row",
                 justifyContent: "space-around",
                 alignItems: "center",
@@ -352,7 +352,7 @@ export const HiddenInput = ({
     const styles = StyleSheet.create({
         inputWrapper: {
             width: "100%",
-            hegiht: "50%",
+            // height: "50%",
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
@@ -495,70 +495,6 @@ const DropdownInput = ({
     );
 };
 
-interface CustSearchBarProps {
-    type?: "search";
-    placeholder?: string;
-    style?: StyleProp<ViewStyle>;
-    dataToQuery: any[];
-    autoComplete?: string;
-    propertyToQuery: string[];
-    clearAutoComplete?: () => void;
-    returnFunc?: (result: any[]) => any;
-}
-
-const CustSearchBar = ({ placeholder, style, dataToQuery, returnFunc, propertyToQuery, autoComplete, clearAutoComplete }: CustSearchBarProps) => {
-    useEffect(() => {
-        autoComplete && search(autoComplete);
-    }, [autoComplete]);
-
-    const search = (text: string) => {
-        if (text) {
-            returnFunc && returnFunc(propertyToQuery.map((prop) => dataToQuery.filter((item) => item[prop]?.includes(text))).flat());
-        } else {
-            returnFunc && returnFunc([]);
-            clearAutoComplete && clearAutoComplete();
-        }
-    };
-
-    const styles = StyleSheet.create({
-        searchBar: {
-            backgroundColor: colors.grey2,
-            width: "90%",
-            alignItems: "center",
-            borderWidth: 2,
-            borderColor: colors.grey3,
-            justifyContent: "space-between",
-            paddingHorizontal: "5%",
-            borderRadius: 10,
-            marginTop: "2.5%",
-            paddingVertical: "2.5%",
-            ...(style as object),
-        },
-
-        row: {
-            flexDirection: "row",
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-        },
-    });
-
-    return (
-        <View style={{ backgroundColor: colors.grey, zIndex: 3, paddingBottom: "5%", width: "100%" }}>
-            <View style={[styles.row, styles.searchBar]}>
-                <Ionicons name="md-search-sharp" size={hp("3%")} color={colors.black} />
-                <CustTextInput
-                    defaultValue={autoComplete}
-                    wrapperStyle={{ flex: 0.98, borderWidth: undefined, backgroundColor: colors.grey2 }}
-                    onChange={search}
-                    type="text"
-                    placeholder={placeholder || "Search Profession"}
-                />
-            </View>
-        </View>
-    );
-};
-
 export function InputComponent(params: { type?: "text" } & textInputMethodType & textInputPropType): React.ReactNode;
 export function InputComponent(params: { type?: "hidden" } & textInputMethodType & textInputPropType): React.ReactNode;
 export function InputComponent(params: { type?: "radio" } & RadioButnProps): React.ReactNode;
@@ -567,14 +503,11 @@ export function InputComponent(params: { type?: "checkbox" } & CustCheckBoxProps
 export function InputComponent(params: { type?: "date" } & dateInputPropType): React.ReactNode;
 export function InputComponent(params: { type?: "phone" } & phoneInputProps): React.ReactNode;
 export function InputComponent(params: { type?: "dropdown" } & DropdownInputProps): React.ReactNode;
-export function InputComponent(params: { type?: "search" } & CustSearchBarProps): React.ReactNode;
 
 export function InputComponent({ type, ...props }: any) {
     switch (type) {
         case "dropdown":
             return <DropdownInput {...props} />;
-        case "search":
-            return <CustSearchBar {...props} />;
         case "switch":
             return <CustSwitch {...props} />;
         case "checkbox":

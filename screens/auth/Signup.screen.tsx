@@ -1,16 +1,16 @@
 import { ScrollView, View } from "react-native";
-import Container, { InnerWrapper, KeyboardView, ScrollContainer } from "../../reusables/Containers.component";
-import TextComponent from "../../reusables/Text.component";
+import Container, { InnerWrapper, KeyboardView, ScrollContainer } from "../../components/Containers.component";
+import TextComponent from "../../components/Text.component";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import colors from "../../../constants/colors.context";
-import { InputComponent } from "../../reusables/Input.component";
-import CustButton from "../../reusables/Buttons.component";
+import colors from "../../constants/colors.context";
+import { InputComponent } from "../../components/Input.component";
+import CustButton from "../../components/Buttons.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackType } from "../../../types/navigation.types";
+import { AuthStackType } from "../../types/navigation.types";
 import { RouteProp } from "@react-navigation/native";
 import { Ref, useRef } from "react";
-import { isValidEmail, isValidPhonenumber } from "../../../helpers/validators.helper";
-import { message } from "../../../helpers/api.helper";
+import { isValidEmail, isValidPhonenumber } from "../../helpers/validators.helper";
+import { message } from "../../helpers/api.helper";
 import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
 
 interface props {

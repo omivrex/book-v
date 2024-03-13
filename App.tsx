@@ -23,8 +23,8 @@ import {
     Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import MainTabNav from "./components/navigation/MainTab.navigation";
-import RootStack from "./components/navigation/RootStack.navigation";
+import MainTabNav from "./navigation/MainTab.navigation";
+import RootStack from "./navigation/RootStack.navigation";
 
 const queryClient = new QueryClient();
 

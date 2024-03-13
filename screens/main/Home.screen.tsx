@@ -1,14 +1,14 @@
 import { View, Image } from "react-native";
-import Container from "../../reusables/Containers.component";
-import TextComponent from "../../reusables/Text.component";
-import colors from "../../../constants/colors.context";
+import Container from "../../components/Containers.component";
+import TextComponent from "../../components/Text.component";
+import colors from "../../constants/colors.context";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { LineChart, PieChart } from "react-native-chart-kit";
-import { MainTabNavType } from "../../../types/navigation.types";
+import { MainTabNavType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
-import DefaultProfileImage from "../../../assets/images/user-icon.jpg";
+import DefaultProfileImage from "../../assets/images/user-icon.jpg";
 
 const data = [
     {

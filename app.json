@@ -1,51 +1,54 @@
 {
-    "expo": {
-        "name": "book-v",
-        "slug": "book-v",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.rexomiv.bookv",
-            "googleServicesFile": "./GoogleService-Info.plist",
-            "config": {
-                "googleMapsApiKey": "AIzaSyBq2tgacCV2fJHmixD23_w9aZ52_NHAqU8"
-            }
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            }
-        },
-        "plugins": [
-            "@react-native-firebase/app",
-            "@react-native-firebase/auth",
-            [
-                "expo-build-properties",
-                {
-                    "ios": {
-                        "useFrameworks": "static",
-                        "deploymentTarget": "13.4"
-                    }
-                }
-            ]
-        ],
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "eas": {
-                "projectId": "3da4b29e-b30f-4255-b6b9-f4ab9f86e4b3"
-            }
+  "expo": {
+    "name": "book-v",
+    "slug": "book-v",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rexomiv.bookv",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBq2tgacCV2fJHmixD23_w9aZ52_NHAqU8"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "deploymentTarget": "13.4"
+          }
         }
+      ],
+      "expo-secure-store"
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3da4b29e-b30f-4255-b6b9-f4ab9f86e4b3"
+      }
     }
+  }
 }

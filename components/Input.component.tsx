@@ -1,5 +1,5 @@
 import { useContext, useState, useRef, Ref, forwardRef, useImperativeHandle, useEffect } from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP } from "react-native-responsive-screen";
 import {
     KeyboardTypeOptions,
     StyleProp,
@@ -137,20 +137,18 @@ const DateComponent = ({ onChange, placeholder, style, mode, wrapperStyle }: dat
     const [showDateSelector, setshowDateSelector] = useState(false);
 
     const toggleDatePicker = () => {
-        Platform.OS === "ios"
-            ? setshowDateSelector(!showDateSelector)
-            : !showDateSelector
-            ? DateTimePickerAndroid.open({
-                  mode,
-                  value: new Date(),
-                  onChange: (e: any, value: any) => {
-                      if (e.type === "set") {
-                          onChange(value);
-                          setdateVal(value);
-                      }
-                  },
-              } as any)
-            : DateTimePickerAndroid.dismiss("date");
+        if (Platform.OS === "android") {
+            DateTimePickerAndroid.open({
+                mode,
+                value: new Date(),
+                onChange: (e: any, value: any) => {
+                    if (e.type === "set") {
+                        onChange(value);
+                        setdateVal(value);
+                    }
+                },
+            } as any);
+        }
     };
 
     useEffect(() => {
@@ -183,17 +181,22 @@ const DateComponent = ({ onChange, placeholder, style, mode, wrapperStyle }: dat
                         : new Date()?.toLocaleTimeString("en-US", { hourCycle: "h24", hour: "numeric", minute: "numeric" }))}
             </TextComponent>
             {showDateSelector && (
-                <RNDateTimePicker
-                    mode={mode}
-                    style={{ width: "100%", opacity: 0.02, flex: 1, backgroundColor: "rgba(0,0,0,0)", zIndex: 10 }}
-                    value={dateVal || new Date()}
-                    onChange={(e, value) => {
-                        if (e.type === "set") {
-                            onChange(value);
-                            setdateVal(value);
-                        }
-                    }}
-                />
+                <>
+                    {[1, 2, 3, 4, 5].map((date, i) => (
+                        <RNDateTimePicker
+                            key={i}
+                            mode={mode}
+                            style={{ opacity: 0.02, flex: 1, backgroundColor: "rgba(0,0,0,0)", zIndex: 10 }}
+                            value={dateVal || new Date()}
+                            onChange={(e, value) => {
+                                if (e.type === "set") {
+                                    onChange(value);
+                                    setdateVal(value);
+                                }
+                            }}
+                        />
+                    ))}
+                </>
             )}
         </TouchableOpacity>
     );

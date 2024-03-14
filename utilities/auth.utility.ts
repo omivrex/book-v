@@ -7,7 +7,7 @@ import { cacheProfileData, deleteCachedAuthData, deleteCachedProfileData } from 
 export const createAccount = async (signupData: SignupDataType): Promise<UserDataType> => {
     try {
         const { email, password, ...userData } = signupData;
-        const response: UserDataType = await client.post("/api/register", { email: email, password: password, ...userData });
+        const response: UserDataType = await client.post("/register", { email: email, password: password, ...userData });
         await cacheProfileData(response);
         return response;
     } catch (error) {
@@ -19,7 +19,7 @@ export const login = async (email: string, password: string): Promise<UserDataTy
     try {
         const userCredentials = await auth().signInWithEmailAndPassword(email, password);
         const idToken = await userCredentials.user.getIdToken();
-        const response: UserDataType = await client.post("/api/login", { idToken });
+        const response: UserDataType = await client.post("/login", { idToken });
         await cacheProfileData(response);
         return response;
     } catch (error) {

@@ -1,55 +1,35 @@
-import { FlatList, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import Container from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
-import { Agenda } from "react-native-calendars";
+import { Agenda, AgendaEntry, AgendaSchedule } from "react-native-calendars";
 import colors from "../../constants/colors.constant";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import moment from "moment";
-import { useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Availability, Availabilities } from "../../types/booking.types";
+import CustButton from "../../components/Buttons.component";
+import BookingModal from "../../modals/booking.modal";
+import { getAllBookedDates, getavailability } from "../../utilities/booking.utility";
+import { useQuery } from "@tanstack/react-query";
+import { capitalize1stLetterOfEachWord } from "../../helpers/text.helper";
 
 const BookingScreen = () => {
-    const [selectedDay, setselectedDay] = useState(moment(new Date().getTime()).format("YYYY-MM-DD"));
-    const appointments = {
-        "2024-03-11": [
-            {
-                name: "Hair Dressing Appointment",
-                height: 50,
-                day: "2024-03-11",
-                description: "Discuss project requirements and timelines.",
-            },
-            {
-                name: "Meeting with Client",
-                height: 50,
-                day: "2024-03-11",
-                description: "Discuss project requirements and timelines.",
-            },
-        ],
+    const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
+    const { data: bookedDates } = useQuery({
+        queryKey: ["get-all-booked-dates"],
+        queryFn: () => getAllBookedDates(),
+    });
 
-        "2024-03-12": [
-            {
-                name: "Team Standup",
-                height: 50,
-                day: "2024-03-12",
-                description: "Catch up with the team on project progress.",
-            },
-
-            {
-                name: "Team Standup",
-                height: 50,
-                day: "2024-03-12",
-                description: "Catch up with the team on project progress.",
-            },
-        ],
-
-        "2024-03-13": [
-            {
-                name: "Team Standup",
-                height: 50,
-                day: "2024-03-13",
-                description: "Catch up with the team on project progress.",
-            },
-        ],
-    };
+    const selectedDay = useRef(moment(new Date().getTime()).format("YYYY-MM-DD"));
+    const {
+        data,
+        refetch: refetchAvailability,
+        isLoading: isLoadingAvailability,
+    } = useQuery({
+        queryKey: ["get-currentDate-availabilities"],
+        queryFn: () => getavailability(selectedDay.current),
+    });
 
     return (
         <Container>
@@ -69,16 +49,29 @@ const BookingScreen = () => {
                         textDayFontWeight: "300",
                     }}
                     onDayPress={({ timestamp }) => {
-                        setselectedDay(moment(timestamp).format("YYYY-MM-DD"));
+                        selectedDay.current = moment(timestamp).format("YYYY-MM-DD");
+                        refetchAvailability();
+                        console.log("c", selectedDay.current);
                     }}
                     renderList={({ items }) => {
                         return (
                             <FlatList
-                                data={items ? items[moment(selectedDay).format("YYYY-MM-DD")] : []}
-                                renderItem={({ item }) => (
+                                refreshControl={
+                                    <RefreshControl
+                                        titleColor={colors.yellow}
+                                        refreshing={isLoadingAvailability}
+                                        progressViewOffset={hp("2%")}
+                                        onRefresh={refetchAvailability}
+                                        colors={[colors.yellow]}
+                                        tintColor={colors.yellow}
+                                        title={"Refreshing..."}
+                                    />
+                                }
+                                data={data}
+                                renderItem={({ item }: any) => (
                                     <View
                                         style={{
-                                            backgroundColor: colors.yellow,
+                                            backgroundColor: colors.blue,
                                             padding: "5%",
                                             marginVertical: "5%",
                                             alignSelf: "center",
@@ -86,7 +79,7 @@ const BookingScreen = () => {
                                             borderRadius: 16,
                                         }}
                                     >
-                                        <TextComponent color={colors.white}>{item.name}</TextComponent>
+                                        <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(item.name)}</TextComponent>
                                         <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
                                             {item.description}
                                         </TextComponent>
@@ -101,11 +94,20 @@ const BookingScreen = () => {
                         );
                     }}
                     showOnlySelectedDayItems
-                    items={appointments}
+                    items={bookedDates}
                     showClosingKnob
                     style={{ width: wp("100%") }}
                 />
+                <CustButton
+                    color={colors.yellow}
+                    style={{ position: "absolute", alignSelf: "flex-end", top: hp("70%"), right: "5%", width: hp("7%"), height: hp("7%") }}
+                    type="rounded"
+                    onPress={() => setopenBookingModal(true)}
+                >
+                    <MaterialIcons name="add" size={hp("3.5%")} color={colors.black} />
+                </CustButton>
             </View>
+            <BookingModal isOpen={openBookingModal} date={selectedDay.current} closeFunc={() => setopenBookingModal(false)} />
         </Container>
     );
 };

@@ -141,7 +141,7 @@ const SignupScreen = ({ navigation, route }: props) => {
                                     long: (details as GooglePlaceDetail).geometry.location.lng,
                                     lat: (details as GooglePlaceDetail).geometry.location.lat,
                                     name: data.structured_formatting.main_text,
-                                } as any; //typescript is a bitch
+                                } as any;
                             }}
                             enablePoweredByContainer={false}
                             onFail={(error: Error) => console.error(error)}

@@ -7,7 +7,7 @@ import { InputComponent } from "../../components/Input.component";
 import CustButton from "../../components/Buttons.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackType } from "../../types/navigation.types";
-import { RouteProp } from "@react-navigation/native";
+import { CommonActions, RouteProp } from "@react-navigation/native";
 import { Ref, useRef } from "react";
 import { isValidEmail, isValidPhonenumber } from "../../helpers/validators.helper";
 import { message } from "../../helpers/api.helper";
@@ -32,7 +32,19 @@ const SignupScreen = ({ navigation, route }: props) => {
         accountType: "VENDOR",
     });
 
-    const next = () => {
+    const { mutate, isPending } = useMutation({
+        mutationFn: () => createAccount(formDetails.current),
+        onSuccess(data, variables, context) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "Main" }],
+                })
+            );
+        },
+    });
+
+    const validate = () => {
         if (!isValidEmail(formDetails.current.email)) {
             message("Input a valid email address", "failure");
         } else if (!formDetails.current.password) {
@@ -42,13 +54,11 @@ const SignupScreen = ({ navigation, route }: props) => {
         } else if (formDetails.current.fullName.length < 1) {
             message("Input Your full name", "failure");
         } else if (!formDetails.current.location) {
-            message("Enter a city where you want to drive", "failure");
+            message("Enter your business address", "failure");
         } else {
+            mutate();
         }
     };
-    const mutation = useMutation({
-        mutationFn: () => createAccount(formDetails.current),
-    });
 
     return (
         <Container>
@@ -130,13 +140,13 @@ const SignupScreen = ({ navigation, route }: props) => {
                         />
                     </View>
                     <CustButton
-                        onPress={next}
+                        onPress={validate}
                         width={wp("90%")}
                         style={{ marginTop: "10%", alignSelf: "center", marginBottom: hp("30%") }}
                         color={colors.yellow}
                     >
                         <TextComponent type="plain-bold" color={colors.black}>
-                            Next
+                            {isPending ? "Loading..." : "Signup"}
                         </TextComponent>
                     </CustButton>
                 </ScrollView>

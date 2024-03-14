@@ -1,54 +1,46 @@
-import axios, { Axios, AxiosError } from "axios";
-import * as SecureStore from "expo-secure-store";
+import axios, { Axios, AxiosError, AxiosResponse } from "axios";
 import { AuthDataType } from "../types/auth.types";
 import { message } from "../helpers/api.helper";
+import { cacheAuthData, getCachedAuthData } from "../utilities/cache.utility";
 
 export const client = axios.create({
     baseURL: process.env.EXPO_PUBLIC_API_URL,
 });
 
 let authData: AuthDataType | undefined;
+(() => {
+    getCachedAuthData()
+        .then((data) => (authData = data))
+        .catch((err) => err);
+})();
 
 client.interceptors.request.use(
-    (request) => {
+    async (request) => {
         request.headers.Authorization = authData ? `Bearer ${authData.accessToken}` : "";
         return request;
     },
     (error: AxiosError) => {
-        if (error.status) {
-            error.status >= 500 ? message("Something went wrong", "failure") : message(error.message, "failure");
-        }
-        console.warn("Error fetching request =>", error.request.url, error.status);
+        console.warn("Error fetching request =>", error.request.url, error.message);
         return Promise.reject(error);
     }
 );
 
-export const cacheAuthData = async (data: AuthDataType) => {
-    try {
-        const jsonData = JSON.stringify(data);
-        await SecureStore.setItemAsync("auth-data", jsonData);
-    } catch (error) {
-        throw error as Error;
-    }
-};
+interface responseDataType {
+    message: string;
+    accessToken?: string;
+    data?: any;
+}
 
-export const getCachedAuthData = async (): Promise<void> => {
-    try {
-        const response = await SecureStore.getItemAsync("auth-data");
-        if (response) {
-            authData = JSON.parse(response);
-        } else {
-            throw new Error("Cannot find user auth data");
+client.interceptors.response.use(
+    (response: AxiosResponse<responseDataType>) => {
+        if (response.data.accessToken) cacheAuthData({ accessToken: response.data.accessToken });
+        return response.data.data;
+    },
+    (error: AxiosError) => {
+        if (error.response) {
+            error.response.status >= 500 ? message("Something went wrong", "failure") : message((error.response.data as responseDataType).message, "failure");
         }
-    } catch (error: any) {
-        throw new Error(error.message, { cause: "auth-error" });
+        console.warn("Error fetching request =>", error.request.url, error.response?.status, error.response?.data);
+        return Promise.reject(error);
     }
-};
-
-export const deleteCachedAuthData = async () => {
-    try {
-        await SecureStore.deleteItemAsync("auth-data");
-    } catch (error: any) {
-        throw new Error(error.message, { cause: "auth-error" });
-    }
-};
+);

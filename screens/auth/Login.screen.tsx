@@ -11,6 +11,7 @@ import { useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../utilities/auth.utility";
 import { message } from "../../helpers/api.helper";
+import { CommonActions } from "@react-navigation/native";
 
 interface props {
     navigation: NativeStackNavigationProp<AuthStackType, "Signup">;
@@ -21,10 +22,17 @@ const LoginScreen = ({ navigation }: props) => {
         email: "",
         password: "",
     });
-
     const { isPending, mutate } = useMutation({
         mutationFn: () => login(formDetails.current.email, formDetails.current.password),
         onError: (err: any) => message(err.message, "failure"),
+        onSuccess(data, variables, context) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "Main" }],
+                })
+            );
+        },
     });
 
     return (
@@ -81,7 +89,7 @@ const LoginScreen = ({ navigation }: props) => {
                         </TextComponent>
                     </View>
                 </ScrollContainer>
-                <CustButton onPress={() => mutate()} color={colors.yellow}>
+                <CustButton onPress={() => formDetails.current.email && formDetails.current.password && mutate()} color={colors.yellow}>
                     <TextComponent type="plain-bold" color={colors.black}>
                         {isPending ? "Loading..." : "Sign In"}
                     </TextComponent>

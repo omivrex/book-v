@@ -1,17 +1,14 @@
 import { LocationDataType } from "./profile.types";
 
 export type SignupDataType = {
-    userId: string;
     email: string;
-    subscription: "BASIC" | "PREMIUM";
-    accountType: "USER" | "DRIVER";
+    accountType: "VENDOR" | "USER";
     fullName: string;
-    location: LocationDataType;
+    location: LocationDataType | null;
     phone: string;
     password: string;
 };
 
 export type AuthDataType = {
-    email: string;
-    userId: string;
+    accessToken: string;
 };

@@ -4,11 +4,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import TextComponent from "../../components/Text.component";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import colors from "../../constants/colors.constant";
-import { MainTabNavType } from "../../types/navigation.types";
+import { HomeStackType } from "../../types/navigation.types";
 import { MaterialIcons } from "@expo/vector-icons";
+import CustButton from "../../components/Buttons.component";
 
 interface props {
-    navigation: NativeStackNavigationProp<MainTabNavType, "Notifications">;
+    navigation: NativeStackNavigationProp<HomeStackType, "Notifications">;
 }
 
 const NotificationScreen = ({ navigation }: props) => {
@@ -16,7 +17,8 @@ const NotificationScreen = ({ navigation }: props) => {
         <Container>
             <View style={styles.wrapper}>
                 <View style={styles.header}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", paddingRight: "10%" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", width: "100%", paddingRight: "10%" }}>
+                        <CustButton onPress={navigation.goBack} color="#FFF" type="back" />
                         <TextComponent type="h2">Notification</TextComponent>
                     </View>
                 </View>

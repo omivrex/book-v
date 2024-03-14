@@ -9,6 +9,10 @@ import { MainTabNavType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import DefaultProfileImage from "../../assets/images/user-icon.jpg";
+import { useContext } from "react";
+import UserDataContext from "../../contexts/userdata.context";
+import { capitalize1stLetterOfEachWord, truncateString } from "../../helpers/text.helper";
+import moment from "moment";
 
 const data = [
     {
@@ -41,17 +45,19 @@ interface props {
 }
 
 const HomeScreen = ({ navigation }: props) => {
+    const userDataContext = useContext(UserDataContext);
+
     return (
         <Container>
             <View style={{ marginTop: "10%", width: "100%", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: "5%" }}>
                 <View>
                     <TextComponent type="h2" color={colors.yellow}>
-                        Hi, Noni
+                        Hi, {capitalize1stLetterOfEachWord(userDataContext?.userData?.fullName)}
                     </TextComponent>
                     <TextComponent type="plain-bold" fontSize={hp("2%")}>
-                        Shear Elegance Salon
+                        {userDataContext?.userData?.businessName}
                     </TextComponent>
-                    <TextComponent fontSize={hp("1.7%")}>Lagos</TextComponent>
+                    <TextComponent fontSize={hp("1.7%")}>{truncateString(userDataContext?.userData?.location?.name, 25)}</TextComponent>
                 </View>
                 <View style={{ alignSelf: "flex-end", width: hp("4.7%"), gap: 5 }}>
                     <Image style={{ width: hp("4.5%"), height: hp("4.5%"), borderRadius: 100 }} source={DefaultProfileImage} />
@@ -61,7 +67,7 @@ const HomeScreen = ({ navigation }: props) => {
             <View style={{ justifyContent: "space-between", flex: 1, paddingHorizontal: "5%", marginTop: "5%", width: "100%" }}>
                 <View style={{ height: hp("35%"), width: "100%", justifyContent: "center", marginTop: "2.5%" }}>
                     <TextComponent type="plain-bold" fontSize={hp("2.5%")} color={colors.grey3}>
-                        September
+                        {moment().format("MMMM")}
                     </TextComponent>
                     <PieChart
                         data={data}

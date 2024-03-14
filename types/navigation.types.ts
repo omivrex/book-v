@@ -4,12 +4,17 @@ export type RootStackType = {
 };
 
 export type MainTabNavType = {
-    Home: undefined;
+    "Home-Stack": undefined;
     Bookings: undefined;
-    Notifications: undefined;
+    Settings: undefined;
 };
 
 export type AuthStackType = {
     Login: undefined;
     Signup: undefined;
+};
+
+export type HomeStackType = {
+    Home: undefined;
+    Notifications: undefined;
 };

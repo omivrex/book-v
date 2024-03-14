@@ -1,14 +1,13 @@
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import Container from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
 import colors from "../../constants/colors.constant";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
-import { LineChart, PieChart } from "react-native-chart-kit";
-import { MainTabNavType } from "../../types/navigation.types";
+import { PieChart } from "react-native-chart-kit";
+import { HomeStackType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
-import DefaultProfileImage from "../../assets/images/user-icon.jpg";
 import { useContext } from "react";
 import UserDataContext from "../../contexts/userdata.context";
 import { capitalize1stLetterOfEachWord, truncateString } from "../../helpers/text.helper";
@@ -40,8 +39,8 @@ const chartConfig = {
 };
 
 interface props {
-    navigation: NativeStackNavigationProp<MainTabNavType, "Home">;
-    route: RouteProp<MainTabNavType, "Home">;
+    navigation: NativeStackNavigationProp<HomeStackType, "Home">;
+    route: RouteProp<HomeStackType, "Home">;
 }
 
 const HomeScreen = ({ navigation }: props) => {
@@ -59,9 +58,9 @@ const HomeScreen = ({ navigation }: props) => {
                     </TextComponent>
                     <TextComponent fontSize={hp("1.7%")}>{truncateString(userDataContext?.userData?.location?.name, 25)}</TextComponent>
                 </View>
-                <View style={{ alignSelf: "flex-end", width: hp("4.7%"), gap: 5 }}>
-                    <Image style={{ width: hp("4.5%"), height: hp("4.5%"), borderRadius: 100 }} source={DefaultProfileImage} />
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("Notifications")} style={{ alignSelf: "flex-end", width: hp("4.7%"), gap: 5 }}>
+                    <Ionicons name="notifications" color={colors.yellow} size={hp("3%")} />
+                </TouchableOpacity>
             </View>
 
             <View style={{ justifyContent: "space-between", flex: 1, paddingHorizontal: "5%", marginTop: "5%", width: "100%" }}>

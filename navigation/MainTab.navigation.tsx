@@ -3,13 +3,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import TextComponent from "../components/Text.component";
 import colors from "../constants/colors.constant";
-import HomeScreen from "../screens/main/Home.screen";
 import DashboardIcon from "../assets/vectors/dashboard.svg";
 import dashboardFocusedIcon from "../assets/images/dashboard.png";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome6 } from "@expo/vector-icons";
 import { Image } from "react-native";
 import BookingScreen from "../screens/main/Bookings.screen";
-import NotificationScreen from "../screens/main/Notifications.screen";
+import HomeStack from "./HomeStack.navigation";
+import SettingsScreen from "../screens/main/Settings.screen";
 
 const Tab = createBottomTabNavigator<MainTabNavType>();
 
@@ -17,7 +17,7 @@ const MainTabNav = () => {
     return (
         <Tab.Navigator
             backBehavior="initialRoute"
-            initialRouteName="Home"
+            initialRouteName="Home-Stack"
             screenOptions={{
                 headerShown: false,
                 tabBarLabelStyle: {
@@ -51,8 +51,8 @@ const MainTabNav = () => {
                         );
                     },
                 }}
-                name="Home"
-                component={HomeScreen}
+                name="Home-Stack"
+                component={HomeStack}
             />
             <Tab.Screen
                 options={{
@@ -95,9 +95,9 @@ const MainTabNav = () => {
                     tabBarIcon: ({ focused }) => {
                         switch (focused) {
                             case true:
-                                return <Ionicons name="notifications" color={colors.yellow} size={hp("3%")} />;
+                                return <FontAwesome6 name="user-gear" color={colors.yellow} size={hp("3%")} />;
                             default:
-                                return <Ionicons name="notifications" color={colors.grey5} size={hp("2%")} />;
+                                return <FontAwesome6 name="user-gear" color={colors.grey5} size={hp("2%")} />;
                         }
                     },
                     tabBarLabel: ({ focused, children }) => {
@@ -108,8 +108,8 @@ const MainTabNav = () => {
                         );
                     },
                 }}
-                name="Notifications"
-                component={NotificationScreen}
+                name="Settings"
+                component={SettingsScreen}
             />
         </Tab.Navigator>
     );

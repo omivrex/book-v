@@ -54,6 +54,8 @@ const SignupScreen = ({ navigation, route }: props) => {
             message("Input a valid phone number", "failure");
         } else if (formDetails.current.fullName.length < 1) {
             message("Input Your full name", "failure");
+        } else if (!formDetails.current.businessName) {
+            message("Enter your business name", "failure");
         } else if (!formDetails.current.location) {
             message("Enter your business address", "failure");
         } else {

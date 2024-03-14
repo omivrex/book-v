@@ -43,6 +43,24 @@ export const cacheProfileData = async (data: UserDataType): Promise<void> => {
     await userStorage.save({ key: "profile-data", data });
 };
 
+export const getCacheProfileData = async (): Promise<UserDataType | undefined> => {
+    try {
+        const userData: UserDataType = await userStorage.load({
+            key: "profile-data",
+            autoSync: false,
+            syncInBackground: false,
+        });
+
+        if (userData) {
+            return userData;
+        } else {
+            // return fetchUserProfile();
+        }
+    } catch (error) {
+        // return fetchUserProfile();
+    }
+};
+
 export const deleteCachedProfileData = async () => {
     try {
         await userStorage.remove({ key: "profile-data" });

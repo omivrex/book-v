@@ -24,6 +24,10 @@ import {
 } from "@expo-google-fonts/poppins";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RootStack from "./navigation/RootStack.navigation";
+import UserDataContext from "./contexts/userdata.context";
+import { useEffect, useState } from "react";
+import { UserDataType } from "./types/profile.types";
+import { getCacheProfileData } from "./utilities/cache.utility";
 
 const queryClient = new QueryClient();
 
@@ -49,13 +53,21 @@ export default function App() {
         Poppins_900Black_Italic,
     });
 
+    const [userData, setuserData] = useState<UserDataType>();
+
+    useEffect(() => {
+        getCacheProfileData().then((data) => data && setuserData(data));
+    }, []);
+
     if (fontsLoaded) {
         return (
             <RootSiblingParent>
                 <NavigationContainer>
                     <QueryClientProvider client={queryClient}>
-                        <RootStack />
-                        <StatusBar style="light" translucent={true} />
+                        <UserDataContext.Provider value={{ userData, setuserData }}>
+                            <RootStack />
+                            <StatusBar style="light" translucent={true} />
+                        </UserDataContext.Provider>
                     </QueryClientProvider>
                 </NavigationContainer>
             </RootSiblingParent>

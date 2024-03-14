@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>371368881080-ooemlgut7blb3ta867kgdf0or1p1cka2.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.371368881080-ooemlgut7blb3ta867kgdf0or1p1cka2</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>371368881080-6odhiv5ap10t04ea3ha6j2fr6qvcdjtf.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA1-RG2t3_kyrHNFjDkEH10eKlHRXPg1AE</string>
+	<string>AIzaSyA5wIawgBlADQD13UCSR7sgTl_poW8a1qg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>371368881080</string>
+	<string>57624497746</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.rexomiv.bookv</string>
 	<key>PROJECT_ID</key>
-	<string>tevcab-3827b</string>
+	<string>book-v</string>
 	<key>STORAGE_BUCKET</key>
-	<string>tevcab-3827b.appspot.com</string>
+	<string>book-v.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:371368881080:ios:07feca05bcb5b5b168bd4d</string>
-	<key>DATABASE_URL</key>
-	<string>https://tevcab-3827b-default-rtdb.firebaseio.com</string>
+	<string>1:57624497746:ios:cafa566d47e1d1ae84598b</string>
 </dict>
 </plist>

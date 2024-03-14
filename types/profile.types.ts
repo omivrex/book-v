@@ -1,16 +1,10 @@
 export type UserDataType = {
-    subscription: "BASIC" | "PREMIUM";
-    carColor: string;
-    carModel: string;
-    carName: string;
     email: string;
+    accountType: "VENDOR" | "USER";
     fullName: string;
-    location: LocationDataType;
+    businessName: string;
+    location: LocationDataType | null;
     phone: string;
-    plateNumber: string;
-    averageRating: number;
-    profilePhoto: string | undefined;
-    accountType: "USER" | "DRIVER";
 };
 
 export type LocationDataType = {

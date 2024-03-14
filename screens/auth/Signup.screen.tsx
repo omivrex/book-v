@@ -29,6 +29,7 @@ const SignupScreen = ({ navigation, route }: props) => {
         location: null,
         email: "",
         password: "",
+        businessName: "",
         accountType: "VENDOR",
     });
 
@@ -87,6 +88,11 @@ const SignupScreen = ({ navigation, route }: props) => {
                             style={{ color: colors.yellow }}
                             onChange={(text) => (formDetails.current.password = text)}
                             placeholder="Provide a password"
+                        />
+                        <InputComponent
+                            style={{ color: colors.yellow }}
+                            placeholder="Enter your Businessname name "
+                            onChange={(text) => (formDetails.current.businessName = text)}
                         />
                         <GooglePlacesAutocomplete
                             placeholder=""

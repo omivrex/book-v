@@ -6,6 +6,7 @@ export type SignupDataType = {
     fullName: string;
     location: LocationDataType | null;
     phone: string;
+    businessName: string;
     password: string;
 };
 

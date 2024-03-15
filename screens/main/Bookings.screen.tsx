@@ -16,7 +16,7 @@ import { capitalize1stLetterOfEachWord } from "../../helpers/text.helper";
 
 const BookingScreen = () => {
     const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
-    const { data: bookedDates } = useQuery({
+    const { data: bookedDates, refetch: refreshBookedDates } = useQuery({
         queryKey: ["get-all-booked-dates"],
         queryFn: () => getAllBookedDates(),
     });
@@ -31,6 +31,11 @@ const BookingScreen = () => {
         queryKey: ["get-currentDate-availabilities"],
         queryFn: () => getavailability(selectedDay.current),
     });
+
+    const refreshFunc = () => {
+        refreshBookedDates();
+        refetchAvailability();
+    };
 
     return (
         <Container>
@@ -61,7 +66,7 @@ const BookingScreen = () => {
                                         titleColor={colors.yellow}
                                         refreshing={isLoadingAvailability}
                                         progressViewOffset={hp("2%")}
-                                        onRefresh={refetchAvailability}
+                                        onRefresh={refreshFunc}
                                         colors={[colors.yellow]}
                                         tintColor={colors.yellow}
                                         title={"Refreshing..."}
@@ -92,7 +97,7 @@ const BookingScreen = () => {
                                             </TextComponent>
                                         </View>
                                         <CustButton
-                                            onPress={() => deleteAvailability(selectedDay.current, index).then(() => refetchAvailability())}
+                                            onPress={() => deleteAvailability(selectedDay.current, index).then(() => refreshFunc())}
                                             type="close"
                                             style={{ alignSelf: "flex-end" }}
                                             color={colors.white}
@@ -129,7 +134,7 @@ const BookingScreen = () => {
                 closeFunc={() => {
                     activeDataIndex.current = -1;
                     setopenBookingModal(false);
-                    refetchAvailability();
+                    refreshFunc();
                 }}
                 index={activeDataIndex.current}
             />

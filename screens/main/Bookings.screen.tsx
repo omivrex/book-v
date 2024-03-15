@@ -10,7 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Availability, Availabilities } from "../../types/booking.types";
 import CustButton from "../../components/Buttons.component";
 import BookingModal from "../../modals/booking.modal";
-import { getAllBookedDates, getavailability } from "../../utilities/booking.utility";
+import { deleteAvailability, getAllBookedDates, getavailability } from "../../utilities/booking.utility";
 import { useQuery } from "@tanstack/react-query";
 import { capitalize1stLetterOfEachWord } from "../../helpers/text.helper";
 
@@ -76,17 +76,28 @@ const BookingScreen = () => {
                                             marginVertical: "5%",
                                             alignSelf: "center",
                                             width: "90%",
+                                            flexDirection: "row",
                                             borderRadius: 16,
+                                            justifyContent: "space-between",
                                         }}
                                         onPress={() => {
                                             activeDataIndex.current = index;
                                             setopenBookingModal(true);
                                         }}
                                     >
-                                        <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(item.name)}</TextComponent>
-                                        <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
-                                            {item.description}
-                                        </TextComponent>
+                                        <View>
+                                            <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(item.name)}</TextComponent>
+                                            <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
+                                                {item.description}
+                                            </TextComponent>
+                                        </View>
+                                        <CustButton
+                                            onPress={() => deleteAvailability(selectedDay.current, index).then(() => refetchAvailability())}
+                                            type="close"
+                                            style={{ alignSelf: "flex-end" }}
+                                            color={colors.white}
+                                            size={hp("2%")}
+                                        />
                                     </TouchableOpacity>
                                 )}
                                 keyExtractor={(item, index) => index.toString()}

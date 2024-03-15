@@ -35,9 +35,9 @@ export const updateAvailability = async (date: string, availability: Availabilit
     }
 };
 
-export const deleteAvailability = async (date: string, availabilityId: string) => {
+export const deleteAvailability = async (date: string, index: number) => {
     try {
-        await client.delete(`/availability/${date}/${availabilityId}`);
+        await client.delete(`/availability/delete/${date}`, { params: { availabilityId: index } });
     } catch (error) {
         throw error;
     }

@@ -17,29 +17,42 @@ interface props {
     isOpen: boolean;
     availabilityData?: Availability;
     date?: string;
-    index?: number;
+    index: number;
 }
 
 const BookingModal = ({ closeFunc, isOpen, availabilityData, date, index }: props) => {
-    const formData = useRef<Availability>({
-        name: availabilityData?.name || "",
-        height: 50,
-        day: date || moment().format("YYYY-MM-DD"),
-        from: availabilityData?.from || new Date().getTime(),
-        to: availabilityData?.to || new Date().getTime(),
-        description: availabilityData?.description || "",
-    });
+    const formData = useRef<Availability>({} as Availability);
 
-    useEffect(() => {}, [availabilityData]);
+    useEffect(() => {
+        if (availabilityData && date) {
+            formData.current = {
+                name: availabilityData.name,
+                height: 50,
+                day: date,
+                from: availabilityData.from,
+                to: availabilityData.to,
+                description: availabilityData.description,
+            };
+        } else {
+            formData.current = {
+                name: "",
+                height: 50,
+                day: date || moment().format("YYYY-MM-DD"),
+                from: new Date().getTime(),
+                to: new Date().getTime(),
+                description: "",
+            };
+        }
+    }, [availabilityData, index]);
 
     const { mutate, isPending } = useMutation({
         mutationFn: () =>
-            index
-                ? updateAvailability(date || moment().format("YYYY-MM-DD"), formData.current, index)
+            availabilityData
+                ? updateAvailability(date || moment().format("YYYY-MM-DD"), { ...availabilityData, ...formData.current }, index)
                 : createAvailability(date || moment().format("YYYY-MM-DD"), formData.current),
         onSuccess(data, variables, context) {
             closeFunc();
-            index ? message("Successfully updated availability", "success") : message("Successfully created a new availability", "success");
+            availabilityData ? message("Successfully updated availability", "success") : message("Successfully created a new availability", "success");
         },
     });
 
@@ -60,7 +73,7 @@ const BookingModal = ({ closeFunc, isOpen, availabilityData, date, index }: prop
                         <TextComponent center style={{ position: "absolute", width: "100%" }} fontSize={hp("2.5%")} fontFamily="Poppins_300Light">
                             {moment(date).format("MMMM DD, YYYY") || moment().format("MMMM DD, YYYY")}
                         </TextComponent>
-                        <CustButton color={colors.white} style={{ alignSelf: "flex-start" }} onPress={closeFunc} type="back" />
+                        <CustButton color={colors.white} style={{ alignSelf: "flex-start" }} onPress={() => closeFunc()} type="back" />
                     </View>
                     <View style={{ marginTop: "2%", gap: 10 }}>
                         <View>

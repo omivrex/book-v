@@ -24,9 +24,6 @@ const CustButton = ({ children, type, style, onPress, color, width, size }: prop
         },
 
         closeButn: {
-            marginTop: "10%",
-            marginBottom: "5%",
-            marginLeft: "3%",
             ...(style as object),
         },
 

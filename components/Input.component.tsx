@@ -130,10 +130,11 @@ interface dateInputPropType {
     mode: "date" | "time";
     wrapperStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<TextStyle>;
+    defaultValue?: string | number;
 }
 
-const DateComponent = ({ onChange, placeholder, style, mode, wrapperStyle }: dateInputPropType) => {
-    const [dateVal, setdateVal] = useState<Date>();
+const DateComponent = ({ onChange, placeholder, style, mode, wrapperStyle, defaultValue }: dateInputPropType) => {
+    const [dateVal, setdateVal] = useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date());
     const [showDateSelector, setshowDateSelector] = useState(false);
 
     const toggleDatePicker = () => {

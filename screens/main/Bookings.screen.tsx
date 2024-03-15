@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, View } from "react-native";
+import { FlatList, RefreshControl, TouchableOpacity, View } from "react-native";
 import Container from "../../components/Containers.component";
 import TextComponent from "../../components/Text.component";
 import { Agenda, AgendaEntry, AgendaSchedule } from "react-native-calendars";
@@ -20,10 +20,11 @@ const BookingScreen = () => {
         queryKey: ["get-all-booked-dates"],
         queryFn: () => getAllBookedDates(),
     });
+    const activeDataIndex = useRef<number>(-1);
 
     const selectedDay = useRef(moment(new Date().getTime()).format("YYYY-MM-DD"));
     const {
-        data,
+        data: availabilityData,
         refetch: refetchAvailability,
         isLoading: isLoadingAvailability,
     } = useQuery({
@@ -51,7 +52,6 @@ const BookingScreen = () => {
                     onDayPress={({ timestamp }) => {
                         selectedDay.current = moment(timestamp).format("YYYY-MM-DD");
                         refetchAvailability();
-                        console.log("c", selectedDay.current);
                     }}
                     renderList={({ items }) => {
                         return (
@@ -67,9 +67,9 @@ const BookingScreen = () => {
                                         title={"Refreshing..."}
                                     />
                                 }
-                                data={data}
-                                renderItem={({ item }: any) => (
-                                    <View
+                                data={availabilityData}
+                                renderItem={({ item, index }: any) => (
+                                    <TouchableOpacity
                                         style={{
                                             backgroundColor: colors.blue,
                                             padding: "5%",
@@ -78,12 +78,16 @@ const BookingScreen = () => {
                                             width: "90%",
                                             borderRadius: 16,
                                         }}
+                                        onPress={() => {
+                                            activeDataIndex.current = index;
+                                            setopenBookingModal(true);
+                                        }}
                                     >
                                         <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(item.name)}</TextComponent>
                                         <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
                                             {item.description}
                                         </TextComponent>
-                                    </View>
+                                    </TouchableOpacity>
                                 )}
                                 keyExtractor={(item, index) => index.toString()}
                                 style={{
@@ -95,7 +99,7 @@ const BookingScreen = () => {
                     }}
                     showOnlySelectedDayItems
                     items={bookedDates}
-                    showClosingKnob
+                    // showClosingKnob
                     style={{ width: wp("100%") }}
                 />
                 <CustButton
@@ -107,7 +111,17 @@ const BookingScreen = () => {
                     <MaterialIcons name="add" size={hp("3.5%")} color={colors.black} />
                 </CustButton>
             </View>
-            <BookingModal isOpen={openBookingModal} date={selectedDay.current} closeFunc={() => setopenBookingModal(false)} />
+            <BookingModal
+                isOpen={openBookingModal}
+                date={selectedDay.current}
+                availabilityData={availabilityData && availabilityData[activeDataIndex.current]}
+                closeFunc={() => {
+                    activeDataIndex.current = -1;
+                    setopenBookingModal(false);
+                    refetchAvailability();
+                }}
+                index={activeDataIndex.current}
+            />
         </Container>
     );
 };

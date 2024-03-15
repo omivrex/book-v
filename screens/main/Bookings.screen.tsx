@@ -15,7 +15,6 @@ import { useQuery } from "@tanstack/react-query";
 import { capitalize1stLetterOfEachWord } from "../../helpers/text.helper";
 
 const BookingScreen = () => {
-    const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
     const { data: bookedDates, refetch: refreshBookedDates } = useQuery({
         queryKey: ["get-all-booked-dates"],
         queryFn: () => getAllBookedDates(),
@@ -74,36 +73,7 @@ const BookingScreen = () => {
                                 }
                                 data={availabilityData}
                                 renderItem={({ item, index }: any) => (
-                                    <TouchableOpacity
-                                        style={{
-                                            backgroundColor: colors.blue,
-                                            padding: "5%",
-                                            marginVertical: "5%",
-                                            alignSelf: "center",
-                                            width: "90%",
-                                            flexDirection: "row",
-                                            borderRadius: 16,
-                                            justifyContent: "space-between",
-                                        }}
-                                        onPress={() => {
-                                            activeDataIndex.current = index;
-                                            setopenBookingModal(true);
-                                        }}
-                                    >
-                                        <View>
-                                            <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(item.name)}</TextComponent>
-                                            <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
-                                                {item.description}
-                                            </TextComponent>
-                                        </View>
-                                        <CustButton
-                                            onPress={() => deleteAvailability(selectedDay.current, index).then(() => refreshFunc())}
-                                            type="close"
-                                            style={{ alignSelf: "flex-end" }}
-                                            color={colors.white}
-                                            size={hp("2%")}
-                                        />
-                                    </TouchableOpacity>
+                                    <RenderItem availabilityData={item} index={index} refreshFunc={refreshFunc} selectedDay={selectedDay.current} />
                                 )}
                                 keyExtractor={(item, index) => index.toString()}
                                 style={{
@@ -115,30 +85,100 @@ const BookingScreen = () => {
                     }}
                     showOnlySelectedDayItems
                     items={bookedDates}
-                    // showClosingKnob
+                    showClosingKnob
                     style={{ width: wp("100%") }}
                 />
-                <CustButton
-                    color={colors.yellow}
-                    style={{ position: "absolute", alignSelf: "flex-end", top: hp("70%"), right: "5%", width: hp("7%"), height: hp("7%") }}
-                    type="rounded"
-                    onPress={() => setopenBookingModal(true)}
-                >
-                    <MaterialIcons name="add" size={hp("3.5%")} color={colors.black} />
-                </CustButton>
             </View>
+            <AddButn selectedDay={selectedDay.current} activeDataIndex={activeDataIndex.current} refreshFunc={refreshFunc} />
+        </Container>
+    );
+};
+
+const RenderItem = ({
+    selectedDay,
+    refreshFunc,
+    index,
+    availabilityData,
+}: {
+    selectedDay: string;
+    refreshFunc: () => void;
+    index: number;
+    availabilityData: Availability;
+}) => {
+    const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
+    return (
+        <>
+            <TouchableOpacity
+                style={{
+                    backgroundColor: colors.blue,
+                    padding: "5%",
+                    marginVertical: "5%",
+                    alignSelf: "center",
+                    width: "90%",
+                    flexDirection: "row",
+                    borderRadius: 16,
+                    justifyContent: "space-between",
+                }}
+                onPress={() => {
+                    setopenBookingModal(true);
+                }}
+            >
+                <View>
+                    <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(availabilityData.name)}</TextComponent>
+                    <TextComponent fontSize={hp("1.8%")} color={colors.white} fontFamily="Poppins_300Light">
+                        {availabilityData.description}
+                    </TextComponent>
+                </View>
+                <CustButton
+                    onPress={() => deleteAvailability(selectedDay, index).then(() => refreshFunc())}
+                    type="close"
+                    style={{ alignSelf: "flex-end" }}
+                    color={colors.white}
+                    size={hp("2%")}
+                />
+            </TouchableOpacity>
+            {openBookingModal && (
+                <BookingModal
+                    isOpen={true}
+                    date={selectedDay}
+                    availabilityData={availabilityData}
+                    closeFunc={() => {
+                        setopenBookingModal(false);
+                        refreshFunc();
+                    }}
+                    index={index}
+                />
+            )}
+        </>
+    );
+};
+
+const AddButn = ({ selectedDay, refreshFunc, activeDataIndex }: { selectedDay: string; refreshFunc: () => void; activeDataIndex: number }) => {
+    const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
+
+    useEffect(() => {}, [activeDataIndex]);
+
+    return (
+        <>
+            <CustButton
+                color={colors.yellow}
+                style={{ position: "absolute", alignSelf: "flex-end", top: hp("80%"), right: "5%", width: hp("7%"), height: hp("7%") }}
+                type="rounded"
+                onPress={() => setopenBookingModal(true)}
+            >
+                <MaterialIcons name="add" size={hp("3.5%")} color={colors.black} />
+            </CustButton>
             <BookingModal
                 isOpen={openBookingModal}
-                date={selectedDay.current}
-                availabilityData={availabilityData && availabilityData[activeDataIndex.current]}
+                date={selectedDay}
                 closeFunc={() => {
-                    activeDataIndex.current = -1;
+                    activeDataIndex = -1;
                     setopenBookingModal(false);
                     refreshFunc();
                 }}
-                index={activeDataIndex.current}
+                index={-1}
             />
-        </Container>
+        </>
     );
 };
 

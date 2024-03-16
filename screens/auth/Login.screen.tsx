@@ -7,17 +7,20 @@ import CustButton from "../../components/Buttons.component";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { AuthStackType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../utilities/auth.utility";
 import { message } from "../../helpers/api.helper";
 import { CommonActions } from "@react-navigation/native";
+import { getCacheProfileData } from "../../utilities/cache.utility";
+import UserDataContext from "../../contexts/userdata.context";
 
 interface props {
     navigation: NativeStackNavigationProp<AuthStackType, "Signup">;
 }
 
 const LoginScreen = ({ navigation }: props) => {
+    const userDataContext = useContext(UserDataContext);
     const formDetails = useRef({
         email: "",
         password: "",
@@ -26,12 +29,16 @@ const LoginScreen = ({ navigation }: props) => {
         mutationFn: () => login(formDetails.current.email, formDetails.current.password),
         onError: (err: any) => message(err.message, "failure"),
         onSuccess(data, variables, context) {
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: "Main" }],
-                })
-            );
+            getCacheProfileData()
+                .then((data) => data && userDataContext?.setuserData(data))
+                .then(() =>
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [{ name: "Main" }],
+                        })
+                    )
+                );
         },
     });
 

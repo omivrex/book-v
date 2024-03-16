@@ -8,20 +8,22 @@ import CustButton from "../../components/Buttons.component";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackType } from "../../types/navigation.types";
 import { CommonActions, RouteProp } from "@react-navigation/native";
-import { Ref, useRef } from "react";
+import { Ref, useContext, useRef } from "react";
 import { isValidEmail, isValidPhonenumber } from "../../helpers/validators.helper";
 import { message } from "../../helpers/api.helper";
 import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
 import { useMutation } from "@tanstack/react-query";
 import { SignupDataType } from "../../types/auth.types";
 import { createAccount } from "../../utilities/auth.utility";
+import { getCacheProfileData } from "../../utilities/cache.utility";
+import UserDataContext from "../../contexts/userdata.context";
 
 interface props {
     navigation: NativeStackNavigationProp<AuthStackType, "Signup">;
-    route: RouteProp<AuthStackType, "Signup">;
 }
 
-const SignupScreen = ({ navigation, route }: props) => {
+const SignupScreen = ({ navigation }: props) => {
+    const userDataContext = useContext(UserDataContext);
     const palceApi = useRef<GooglePlacesAutocompleteRef>();
     const formDetails = useRef<SignupDataType>({
         fullName: "",
@@ -36,12 +38,16 @@ const SignupScreen = ({ navigation, route }: props) => {
     const { mutate, isPending } = useMutation({
         mutationFn: () => createAccount(formDetails.current),
         onSuccess(data, variables, context) {
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: "Main" }],
-                })
-            );
+            getCacheProfileData()
+                .then((data) => data && userDataContext?.setuserData(data))
+                .then(() =>
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [{ name: "Main" }],
+                        })
+                    )
+                );
         },
     });
 
@@ -74,7 +80,7 @@ const SignupScreen = ({ navigation, route }: props) => {
                     <View style={{ gap: 30, marginVertical: "10%" }}>
                         <InputComponent
                             style={{ color: colors.yellow }}
-                            placeholder="Enter your full name "
+                            placeholder="Enter your full name"
                             onChange={(text) => (formDetails.current.fullName = text)}
                         />
                         <InputComponent

@@ -8,11 +8,13 @@ export const client = axios.create({
 });
 
 let authData: AuthDataType | undefined;
-(() => {
+const fetchAuthData = () => {
     getCachedAuthData()
         .then((data) => (authData = data))
         .catch((err) => err);
-})();
+};
+
+fetchAuthData();
 
 client.interceptors.request.use(
     async (request) => {
@@ -33,7 +35,7 @@ interface responseDataType {
 
 client.interceptors.response.use(
     (response: AxiosResponse<responseDataType>) => {
-        if (response.data.accessToken) cacheAuthData({ accessToken: response.data.accessToken });
+        if (response.data.accessToken) cacheAuthData({ accessToken: response.data.accessToken }).then(fetchAuthData);
         return response.data.data;
     },
     (error: AxiosError) => {

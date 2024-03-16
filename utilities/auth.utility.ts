@@ -36,3 +36,5 @@ export const signOut = async () => {
         throw error as Error;
     }
 };
+
+// signOut();

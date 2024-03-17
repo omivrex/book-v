@@ -7,7 +7,7 @@ import { UserDataType } from "../../types/profile.types";
 
 jest.mock("../../utilities/profile.utility", () => ({
     validateUpdateData: jest.fn(() => true),
-    updateProfileInfo: jest.fn(),
+    updateProfileInfo: jest.fn(() => Promise.resolve({})),
 }));
 
 describe("SettingsScreen component", () => {
@@ -31,6 +31,7 @@ describe("SettingsScreen component", () => {
             fireEvent(getByPlaceholderText("Enter your Business name"), "change", { nativeEvent: { text: "Doe Enterprises" } });
             fireEvent.press(getByTestId("update-button"));
             await waitFor(() => expect(validateUpdateData).toHaveBeenCalled());
+            await waitFor(() => expect(updateProfileInfo).toHaveBeenCalled());
         });
     });
 });

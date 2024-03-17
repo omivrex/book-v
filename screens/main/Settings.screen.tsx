@@ -15,7 +15,7 @@ import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete, GooglePla
 import { useMutation } from "@tanstack/react-query";
 import { createAccount } from "../../utilities/auth.utility";
 import { UserDataType } from "../../types/profile.types";
-import { updateProfileInfo } from "../../utilities/profile.utility";
+import { updateProfileInfo, validateUpdateData } from "../../utilities/profile.utility";
 import UserDataContext from "../../contexts/userdata.context";
 
 interface props {
@@ -40,22 +40,6 @@ const SettingsScreen = ({ navigation, route }: props) => {
         },
     });
 
-    const validate = () => {
-        if (!isValidEmail(formDetails.current.email)) {
-            message("Input a valid email address", "failure");
-        } else if (!isValidPhonenumber(formDetails.current.phone)) {
-            message("Input a valid phone number", "failure");
-        } else if (formDetails.current.fullName.length < 1) {
-            message("Input Your full name", "failure");
-        } else if (!formDetails.current.businessName) {
-            message("Enter your business name", "failure");
-        } else if (!formDetails.current.location) {
-            message("Enter your business address", "failure");
-        } else {
-            mutate();
-        }
-    };
-
     return (
         <Container>
             <InnerWrapper>
@@ -67,7 +51,7 @@ const SettingsScreen = ({ navigation, route }: props) => {
                     <View style={{ gap: 30, marginVertical: "10%" }}>
                         <InputComponent
                             style={{ color: colors.yellow }}
-                            placeholder="Enter your full name "
+                            placeholder="Enter your full name"
                             defaultValue={userDataContext?.userData?.fullName}
                             onChange={(text) => (formDetails.current.fullName = text)}
                         />
@@ -82,12 +66,13 @@ const SettingsScreen = ({ navigation, route }: props) => {
                         />
                         <InputComponent
                             type="phone"
+                            placeholder="Enter your phone number"
                             defaultValue={userDataContext?.userData?.phone}
                             onChange={(phoneInfo) => (formDetails.current.phone = phoneInfo.number)}
                         />
                         <InputComponent
                             style={{ color: colors.yellow }}
-                            placeholder="Enter your Business name "
+                            placeholder="Enter your Business name"
                             defaultValue={userDataContext?.userData?.businessName}
                             onChange={(text) => (formDetails.current.businessName = text)}
                         />
@@ -147,8 +132,9 @@ const SettingsScreen = ({ navigation, route }: props) => {
                         />
                     </View>
                     <CustButton
-                        onPress={validate}
+                        onPress={() => validateUpdateData(formDetails.current) && mutate()}
                         width={wp("90%")}
+                        testID="update-button"
                         style={{ marginTop: "10%", alignSelf: "center", marginBottom: hp("30%") }}
                         color={colors.yellow}
                     >

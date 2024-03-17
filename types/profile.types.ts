@@ -1,6 +1,6 @@
 export type UserDataType = {
     email: string;
-    accountType: "VENDOR" | "USER";
+    accountType: "VENDOR";
     fullName: string;
     businessName: string;
     location: LocationDataType | null;

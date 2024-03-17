@@ -2,7 +2,7 @@ import { LocationDataType } from "./profile.types";
 
 export type SignupDataType = {
     email: string;
-    accountType: "VENDOR" | "USER";
+    accountType: "VENDOR";
     fullName: string;
     location: LocationDataType | null;
     phone: string;

@@ -31,7 +31,7 @@ const NotificationScreen = ({ navigation }: props) => {
             <View style={styles.wrapper}>
                 <View style={styles.header}>
                     <View style={{ flexDirection: "row", alignItems: "center", width: "100%", paddingRight: "10%" }}>
-                        <CustButton onPress={navigation.goBack} color="#FFF" type="back" />
+                        <CustButton testID="back-button" onPress={navigation.goBack} color="#FFF" type="back" />
                         <TextComponent type="h2">Notification</TextComponent>
                     </View>
                 </View>
@@ -39,6 +39,7 @@ const NotificationScreen = ({ navigation }: props) => {
                 <View>
                     <FlatList
                         data={notifications}
+                        testID="flatlist"
                         refreshControl={
                             <RefreshControl
                                 titleColor={colors.yellow}

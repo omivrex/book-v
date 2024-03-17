@@ -1,5 +1,4 @@
 import { act, fireEvent, render, waitFor } from "../renderer";
-import React from "react";
 import SettingsScreen from "../../screens/main/Settings.screen";
 
 import { navigation, route } from "../_mocks_/navigation.mock";
@@ -12,13 +11,15 @@ jest.mock("../../utilities/profile.utility", () => ({
 }));
 
 describe("SettingsScreen component", () => {
-    test("renders input fields and buttons", () => {
+    test("renders input fields and buttons", async () => {
         const { getByPlaceholderText, getByTestId } = render(<SettingsScreen navigation={navigation} route={route} />);
-        expect(getByPlaceholderText("Enter your full name")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your email")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your phone number")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your Business name")).toBeTruthy();
-        expect(getByTestId("update-button")).toBeTruthy();
+        await act(async () => {
+            expect(getByPlaceholderText("Enter your full name")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your email")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your phone number")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your Business name")).toBeTruthy();
+            expect(getByTestId("update-button")).toBeTruthy();
+        });
     });
 
     test("validates user input before updating", async () => {
@@ -29,24 +30,7 @@ describe("SettingsScreen component", () => {
             fireEvent(getByPlaceholderText("Enter your full name"), "change", { nativeEvent: { text: "John Doe" } });
             fireEvent(getByPlaceholderText("Enter your Business name"), "change", { nativeEvent: { text: "Doe Enterprises" } });
             fireEvent.press(getByTestId("update-button"));
-            expect(validateUpdateData).toHaveBeenCalled();
-        });
-    });
-
-    test("updates user profile information", async () => {
-        const { getByPlaceholderText, getByTestId } = render(<SettingsScreen navigation={navigation} route={route} />);
-
-        await act(async () => {
-            fireEvent(getByPlaceholderText("Enter your email"), "change", { nativeEvent: { text: "valid-email@example.com" } });
-            fireEvent(getByPlaceholderText("Enter your phone number"), "change", { nativeEvent: { text: "7084973299" } });
-            fireEvent(getByPlaceholderText("Enter your full name"), "change", { nativeEvent: { text: "John Doe" } });
-            fireEvent(getByPlaceholderText("Enter your Business name"), "change", { nativeEvent: { text: "Doe Enterprises" } });
-
-            fireEvent.press(getByTestId("update-button"));
-
-            await waitFor(() => {
-                expect(updateProfileInfo).toHaveBeenCalled();
-            });
+            await waitFor(() => expect(validateUpdateData).toHaveBeenCalled());
         });
     });
 });

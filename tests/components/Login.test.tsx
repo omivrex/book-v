@@ -36,19 +36,22 @@ describe("LoginScreen component", () => {
 
     test("validates email and password before submitting", async () => {
         const { getByTestId, getByPlaceholderText } = render(<LoginScreen navigation={navigation} />);
-        fireEvent(getByPlaceholderText("Enter your email"), "change", { nativeEvent: { text: "invalid-email" } });
-        fireEvent(getByPlaceholderText("Provide a password"), "change", { nativeEvent: { text: "" } });
+        await act(async () => {
+            fireEvent(getByPlaceholderText("Enter your email"), "change", { nativeEvent: { text: "invalid-email" } });
+            fireEvent(getByPlaceholderText("Provide a password"), "change", { nativeEvent: { text: "" } });
 
-        fireEvent.press(getByTestId("signin-button"));
+            fireEvent.press(getByTestId("signin-button"));
 
-        expect(authUtility.login).not.toHaveBeenCalled();
+            expect(authUtility.login).not.toHaveBeenCalled();
+        });
     });
 
-    test("navigates to sign up screen from login screen", () => {
+    test("navigates to sign up screen from login screen", async () => {
         const { getByText } = render(<LoginScreen navigation={navigation} />);
-
-        fireEvent.press(getByText("Signup"));
-        expect(navigation.navigate).toHaveBeenCalledWith("Signup");
+        await act(async () => {
+            fireEvent.press(getByText("Signup"));
+            expect(navigation.navigate).toHaveBeenCalledWith("Signup");
+        });
     });
 
     test("navigates to main after login is completed", async () => {

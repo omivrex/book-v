@@ -157,23 +157,13 @@ describe("SignupScreen component", () => {
     test("ensures validation is done before submitting", async () => {
         const { getByTestId, getByPlaceholderText } = render(<SignupScreen navigation={navigation} />);
         await act(async () => {
-            // Get the form details from the input fields
-            const validVendorFormData = {
-                fullName: getByPlaceholderText("Enter your full name").props.value,
-                email: getByPlaceholderText("Enter your email").props.value,
-                phone: getByPlaceholderText("Enter your phone number").props.value,
-                password: getByPlaceholderText("Provide a password").props.value,
-                businessName: getByPlaceholderText("Enter your Businessname name").props.value,
-                location: { long: 0, lat: 0, name: "Business Address" },
-                accountType: "VENDOR", // Assuming a default value for accountType
-            };
+            const validateSpy = jest.spyOn(authUtility, "validateSignupInputs");
 
-            // Trigger form validation and submission
             fireEvent.press(getByTestId("signup-button"));
 
-            const isValid = authUtility.validateSignupInputs(validVendorFormData as SignupDataType);
-            // Expect createAccount to be called
-            expect(isValid).toBe(false);
+            expect(validateSpy).toHaveBeenCalled();
+
+            validateSpy.mockRestore();
         });
     });
 });

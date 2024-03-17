@@ -3,6 +3,33 @@ import { SignupDataType } from "../types/auth.types";
 import { client } from "../constants/axios.config";
 import { UserDataType } from "../types/profile.types";
 import { cacheProfileData, deleteCachedAuthData, deleteCachedProfileData } from "./cache.utility";
+import { isValidEmail, isValidPhonenumber } from "../helpers/validators.helper";
+import { message } from "../helpers/api.helper";
+
+export const validateSignupInputs = (formDetails: SignupDataType): boolean => {
+    if (!isValidEmail(formDetails.email)) {
+        message("Input a valid email address", "failure");
+        return false;
+    } else if (!isValidPhonenumber(formDetails.phone)) {
+        message("Input a valid phone number", "failure");
+        return false;
+    } else if (!formDetails.password) {
+        message("Input  your password", "failure");
+        return false;
+    } else if (formDetails.fullName.length < 1) {
+        message("Input Your full name", "failure");
+        return false;
+    } else if (!formDetails.businessName) {
+        message("Enter your business name", "failure");
+        return false;
+    } else if (!formDetails.location) {
+        message("Enter your business address", "failure");
+        return false;
+    } else if (formDetails.accountType !== "VENDOR") {
+        return false;
+    }
+    return true;
+};
 
 export const createAccount = async (signupData: SignupDataType): Promise<UserDataType> => {
     try {

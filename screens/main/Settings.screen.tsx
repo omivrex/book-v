@@ -97,7 +97,7 @@ const SettingsScreen = ({ navigation, route }: props) => {
                             query={{
                                 key: process.env.EXPO_PUBLIC_PLACES_API_KEY,
                                 language: "en",
-                                components: "country:ng",
+                                // components: "country:ng",
                             }}
                             styles={{
                                 container: { width: wp("90%") },

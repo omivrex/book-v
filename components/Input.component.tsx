@@ -284,10 +284,11 @@ interface phoneInputProps {
     style?: StyleProp<ViewStyle>;
     defaultValue?: string;
     countryCode?: any;
+    placeholder?: string;
     onChange: (value: { countryCode: string; countrySymbol: string; number: string }) => void;
 }
 
-const CustPhoneInput = ({ style, onChange, defaultValue, countryCode }: phoneInputProps) => {
+const CustPhoneInput = ({ style, onChange, defaultValue, countryCode, placeholder }: phoneInputProps) => {
     const phoneNumInput = useRef<PhoneInput>();
 
     useEffect(() => {
@@ -325,7 +326,7 @@ const CustPhoneInput = ({ style, onChange, defaultValue, countryCode }: phoneInp
         <PhoneInput
             defaultCode={"NG"}
             layout="first"
-            placeholder=" "
+            placeholder={placeholder}
             ref={phoneNumInput as React.MutableRefObject<PhoneInput>}
             containerStyle={styles.phoneNumberView}
             textContainerStyle={{ paddingVertical: 0, backgroundColor: colors.black }}

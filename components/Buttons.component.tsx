@@ -10,10 +10,11 @@ interface propType {
     color: string;
     size?: number;
     width?: DimensionValue;
+    testID?: string;
     onPress?: (e: GestureResponderEvent) => void;
 }
 
-const CustButton = ({ children, type, style, onPress, color, width, size }: propType) => {
+const CustButton = ({ children, type, style, onPress, color, width, size, testID }: propType) => {
     const styles = StyleSheet.create({
         backButn: {
             marginTop: "10%",
@@ -67,37 +68,37 @@ const CustButton = ({ children, type, style, onPress, color, width, size }: prop
     switch (type) {
         case "forward":
             return (
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity testID={testID} onPress={onPress}>
                     <AntDesign name="right" size={size || hp(6)} color={color} />
                 </TouchableOpacity>
             );
         case "back":
             return (
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity testID={testID} onPress={onPress}>
                     <Ionicons name="chevron-back" style={styles.backButn} size={size || hp(4)} color={color} />
                 </TouchableOpacity>
             );
         case "close":
             return (
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity testID={testID} onPress={onPress}>
                     <Ionicons name="close" style={styles.closeButn} size={size || hp(6)} color={color} />
                 </TouchableOpacity>
             );
         case "rounded":
             return (
-                <TouchableOpacity onPress={onPress} style={styles.rounded}>
+                <TouchableOpacity testID={testID} onPress={onPress} style={styles.rounded}>
                     {children}
                 </TouchableOpacity>
             );
         case "rounded-rect":
             return (
-                <TouchableOpacity onPress={onPress} style={styles.roundedRect}>
+                <TouchableOpacity testID={testID} onPress={onPress} style={styles.roundedRect}>
                     {children}
                 </TouchableOpacity>
             );
         default:
             return (
-                <TouchableOpacity onPress={onPress} style={styles.default}>
+                <TouchableOpacity testID={testID} onPress={onPress} style={styles.default}>
                     {children}
                 </TouchableOpacity>
             );

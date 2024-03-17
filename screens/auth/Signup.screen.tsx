@@ -9,12 +9,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackType } from "../../types/navigation.types";
 import { CommonActions, RouteProp } from "@react-navigation/native";
 import { Ref, useContext, useRef } from "react";
-import { isValidEmail, isValidPhonenumber } from "../../helpers/validators.helper";
-import { message } from "../../helpers/api.helper";
 import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
 import { useMutation } from "@tanstack/react-query";
 import { SignupDataType } from "../../types/auth.types";
-import { createAccount } from "../../utilities/auth.utility";
+import { createAccount, validateSignupInputs } from "../../utilities/auth.utility";
 import { getCacheProfileData } from "../../utilities/cache.utility";
 import UserDataContext from "../../contexts/userdata.context";
 
@@ -24,7 +22,6 @@ interface props {
 
 const SignupScreen = ({ navigation }: props) => {
     const userDataContext = useContext(UserDataContext);
-    const palceApi = useRef<GooglePlacesAutocompleteRef>();
     const formDetails = useRef<SignupDataType>({
         fullName: "",
         phone: "",
@@ -51,28 +48,13 @@ const SignupScreen = ({ navigation }: props) => {
         },
     });
 
-    const validate = () => {
-        if (!isValidEmail(formDetails.current.email)) {
-            message("Input a valid email address", "failure");
-        } else if (!formDetails.current.password) {
-            message("Input  your password", "failure");
-        } else if (!isValidPhonenumber(formDetails.current.phone)) {
-            message("Input a valid phone number", "failure");
-        } else if (formDetails.current.fullName.length < 1) {
-            message("Input Your full name", "failure");
-        } else if (!formDetails.current.businessName) {
-            message("Enter your business name", "failure");
-        } else if (!formDetails.current.location) {
-            message("Enter your business address", "failure");
-        } else {
-            mutate();
-        }
-    };
-
     return (
         <Container>
             <InnerWrapper>
-                <ScrollView keyboardShouldPersistTaps={"always"} style={{ marginTop: "20%", width: "100%", paddingHorizontal: "5%" }}>
+                <View style={{ width: "100%" }}>
+                    <CustButton onPress={navigation.goBack} style={{ alignSelf: "flex-start", marginBottom: 0 }} color={colors.white} type="back" />
+                </View>
+                <ScrollView keyboardShouldPersistTaps={"always"} style={{ marginTop: "10%", width: "100%", paddingHorizontal: "5%" }}>
                     <View>
                         <TextComponent type="h2">Lets get more information</TextComponent>
                     </View>
@@ -90,7 +72,11 @@ const SignupScreen = ({ navigation }: props) => {
                             placeholder="Enter your email"
                             keyboardType="email-address"
                         />
-                        <InputComponent type="phone" onChange={(phoneInfo) => (formDetails.current.phone = phoneInfo.number)} />
+                        <InputComponent
+                            type="phone"
+                            placeholder="Enter your phone number"
+                            onChange={(phoneInfo) => (formDetails.current.phone = phoneInfo.number)}
+                        />
                         <InputComponent
                             type="hidden"
                             style={{ color: colors.yellow }}
@@ -103,13 +89,12 @@ const SignupScreen = ({ navigation }: props) => {
                             onChange={(text) => (formDetails.current.businessName = text)}
                         />
                         <GooglePlacesAutocomplete
-                            placeholder=""
+                            placeholder="Enter your business location"
                             textInputProps={{ placeholder: "Enter your business location", placeholderTextColor: colors.grey4 }}
-                            ref={palceApi as Ref<GooglePlacesAutocompleteRef>}
                             query={{
                                 key: process.env.EXPO_PUBLIC_PLACES_API_KEY,
                                 language: "en",
-                                components: "country:ng",
+                                // components: "country:ng",
                             }}
                             styles={{
                                 container: { width: wp("90%") },
@@ -154,10 +139,11 @@ const SignupScreen = ({ navigation }: props) => {
                         />
                     </View>
                     <CustButton
-                        onPress={validate}
+                        onPress={() => validateSignupInputs(formDetails.current) && mutate()}
                         width={wp("90%")}
                         style={{ marginTop: "10%", alignSelf: "center", marginBottom: hp("30%") }}
                         color={colors.yellow}
+                        testID="signup-button"
                     >
                         <TextComponent type="plain-bold" color={colors.black}>
                             {isPending ? "Loading..." : "Signup"}

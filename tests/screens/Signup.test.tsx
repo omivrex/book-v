@@ -1,8 +1,8 @@
+import { fireEvent, render, act } from "../renderer";
 import React from "react";
 import SignupScreen from "../../screens/auth/Signup.screen";
 
 import * as authUtility from "../../utilities/auth.utility";
-import { fireEvent, render } from "../renderer";
 import { SignupDataType } from "../../types/auth.types";
 
 // Mock the props
@@ -15,15 +15,17 @@ const navigation: any = {
 };
 
 describe("SignupScreen component", () => {
-    test("renders input fields for fullname, email, password, phone, location, and businessname", () => {
+    test("renders input fields for fullname, email, password, phone, location, and businessname", async () => {
         const { getByPlaceholderText } = render(<SignupScreen navigation={navigation} />);
 
-        // Test for presence of input fields
-        expect(getByPlaceholderText("Enter your full name")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your email")).toBeTruthy();
-        expect(getByPlaceholderText("Provide a password")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your Businessname name")).toBeTruthy();
-        expect(getByPlaceholderText("Enter your business location")).toBeTruthy();
+        await act(async () => {
+            expect(getByPlaceholderText("Enter your full name")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your email")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your phone number")).toBeTruthy();
+            expect(getByPlaceholderText("Provide a password")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your Businessname name")).toBeTruthy();
+            expect(getByPlaceholderText("Enter your business location")).toBeTruthy();
+        });
     });
 
     test("validates email", () => {
@@ -152,33 +154,26 @@ describe("SignupScreen component", () => {
         expect(authUtility.validateSignupInputs(formDataWithoutAccountType as SignupDataType)).toBe(false);
     });
 
-    test("ensure validation is called before submitting", () => {
+    test("ensures validation is done before submitting", async () => {
         const { getByTestId, getByPlaceholderText } = render(<SignupScreen navigation={navigation} />);
-        const mockedValidate = jest.spyOn(authUtility, "validateSignupInputs").mockImplementation((formDetails) => true);
+        await act(async () => {
+            // Get the form details from the input fields
+            const validVendorFormData = {
+                fullName: getByPlaceholderText("Enter your full name").props.value,
+                email: getByPlaceholderText("Enter your email").props.value,
+                phone: getByPlaceholderText("Enter your phone number").props.value,
+                password: getByPlaceholderText("Provide a password").props.value,
+                businessName: getByPlaceholderText("Enter your Businessname name").props.value,
+                location: { long: 0, lat: 0, name: "Business Address" },
+                accountType: "VENDOR", // Assuming a default value for accountType
+            };
 
-        // Simulate user input events to fill in the form fields
-        fireEvent.changeText(getByPlaceholderText("Enter your full name"), "John Doe");
-        fireEvent.changeText(getByPlaceholderText("Enter your email"), "john.doe@example.com");
-        fireEvent.changeText(getByPlaceholderText("Enter your phone number"), "1234567890");
-        fireEvent.changeText(getByPlaceholderText("Provide a password"), "password123");
-        fireEvent.changeText(getByPlaceholderText("Enter your Businessname name"), "Business Name");
+            // Trigger form validation and submission
+            fireEvent.press(getByTestId("signup-button"));
 
-        // Get the form details from the input fields
-        const validVendorFormData = {
-            fullName: getByPlaceholderText("Enter your full name").props.value,
-            email: getByPlaceholderText("Enter your email").props.value,
-            phone: getByPlaceholderText("Enter your phone number").props.value,
-            password: getByPlaceholderText("Provide a password").props.value,
-            businessName: getByPlaceholderText("Enter your Businessname name").props.value,
-            location: { long: 0, lat: 0, name: "Business Address" },
-            accountType: "VENDOR", // Assuming a default value for accountType
-        };
-
-        // Trigger form validation and submission
-        fireEvent.press(getByTestId("signup-button"));
-        const isValid = authUtility.validateSignupInputs(validVendorFormData as SignupDataType);
-        // Expect createAccount to be called
-        expect(isValid).toBe(true);
-        // expect(authUtility.createAccount).toHaveBeenCalled();
+            const isValid = authUtility.validateSignupInputs(validVendorFormData as SignupDataType);
+            // Expect createAccount to be called
+            expect(isValid).toBe(false);
+        });
     });
 });

@@ -52,7 +52,13 @@ const SignupScreen = ({ navigation }: props) => {
         <Container>
             <InnerWrapper>
                 <View style={{ width: "100%" }}>
-                    <CustButton onPress={navigation.goBack} style={{ alignSelf: "flex-start", marginBottom: 0 }} color={colors.white} type="back" />
+                    <CustButton
+                        testID="back-button"
+                        onPress={navigation.goBack}
+                        style={{ alignSelf: "flex-start", marginBottom: 0 }}
+                        color={colors.white}
+                        type="back"
+                    />
                 </View>
                 <ScrollView keyboardShouldPersistTaps={"always"} style={{ marginTop: "10%", width: "100%", paddingHorizontal: "5%" }}>
                     <View>

@@ -4,15 +4,7 @@ import SignupScreen from "../../screens/auth/Signup.screen";
 
 import * as authUtility from "../../utilities/auth.utility";
 import { SignupDataType } from "../../types/auth.types";
-
-// Mock the props
-const navigation: any = {
-    navigate: jest.fn(),
-    goBack: jest.fn(),
-    dispatch: jest.fn(),
-    addListener: jest.fn(),
-    // Add any other required properties or methods
-};
+import { navigation } from "../_mocks_/navigation.mock";
 
 describe("SignupScreen component", () => {
     test("renders input fields for fullname, email, password, phone, location, and businessname", async () => {
@@ -26,6 +18,15 @@ describe("SignupScreen component", () => {
             expect(getByPlaceholderText("Enter your Businessname name")).toBeTruthy();
             expect(getByPlaceholderText("Enter your business location")).toBeTruthy();
         });
+    });
+
+    test("navigates back to login when back button is  pressed", async () => {
+        const { getByTestId } = render(<SignupScreen navigation={navigation} />);
+
+        await act(async () => {
+            fireEvent.press(getByTestId("back-button"));
+        });
+        expect(navigation.goBack).toHaveBeenCalled();
     });
 
     test("validates email", () => {

@@ -9,7 +9,7 @@ import { AuthStackType } from "../../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useContext, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../../utilities/auth.utility";
+import { login, validateSignupInputs } from "../../utilities/auth.utility";
 import { message } from "../../helpers/api.helper";
 import { CommonActions } from "@react-navigation/native";
 import { getCacheProfileData } from "../../utilities/cache.utility";
@@ -96,7 +96,7 @@ const LoginScreen = ({ navigation }: props) => {
                         </TextComponent>
                     </View>
                 </ScrollContainer>
-                <CustButton onPress={() => formDetails.current.email && formDetails.current.password && mutate()} color={colors.yellow}>
+                <CustButton testID="signin-button" onPress={() => validateSignupInputs(formDetails.current, true) && mutate()} color={colors.yellow}>
                     <TextComponent type="plain-bold" color={colors.black}>
                         {isPending ? "Loading..." : "Sign In"}
                     </TextComponent>

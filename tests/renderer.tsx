@@ -6,7 +6,7 @@ import UserDataContext from "../contexts/userdata.context";
 import { useState } from "react";
 import { UserDataType } from "../types/profile.types";
 const queryClient = new QueryClient();
-
+/** Wraps any component which will be rendered by RNTL render function in all the providers */
 const AllProviders = ({ children }: any) => {
     const [userData, setuserData] = useState<UserDataType>();
 

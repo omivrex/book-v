@@ -27,7 +27,7 @@ export const createAvailability = async (date: string, availability: Availabilit
     }
 };
 
-export const updateAvailability = async (date: string, availability: Availability, index: number) => {
+export const updateAvailability = async (date: string, availability: Availability, index: number): Promise<void> => {
     try {
         await client.put(`/availability/${date}`, { availability }, { params: { index } });
     } catch (error) {

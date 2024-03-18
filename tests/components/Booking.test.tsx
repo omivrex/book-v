@@ -1,10 +1,13 @@
 import BookingModal from "../../modals/booking.modal";
 import BookingScreen, { AddButn, RenderItem } from "../../screens/main/Bookings.screen";
-import { getAllBookedDates, getavailability, deleteAvailability } from "../../utilities/booking.utility";
-import { act, fireEvent, render } from "../renderer";
+import { Availability } from "../../types/booking.types";
+import { getAllBookedDates, getavailability, deleteAvailability, createAvailability, updateAvailability } from "../../utilities/booking.utility";
+import { act, fireEvent, render, waitFor } from "../renderer";
 
 jest.mock("../../utilities/booking.utility", () => ({
     ...jest.requireActual("../../utilities/booking.utility"),
+    createAvailability: jest.fn(() => Promise.resolve()),
+    updateAvailability: jest.fn(() => Promise.resolve()),
     getAllBookedDates: jest.fn(() => Promise.resolve({})),
     getavailability: jest.fn(() => Promise.resolve([])),
     deleteAvailability: jest.fn((date: string, index: number) => Promise.resolve()),
@@ -25,16 +28,47 @@ describe("BookingScreen component", () => {
         expect(getavailability).toHaveBeenCalled();
     });
 
-    test("opens BookingModal when add button is clicked", async () => {
-        const { getByTestId } = render(<AddButn {...({} as any)} />);
-        await act(async () => {
-            fireEvent.press(getByTestId("add-button"));
-            const bookingModal = getByTestId("booking-modal");
-            expect(bookingModal.props.children.props.isOpen).toBeTruthy();
+    test("calls updateAvailability when save button is clicked for existing availability", async () => {
+        const closeFunc = jest.fn();
+        const isOpen = true;
+        const availabilityData = {
+            name: "Test Availability",
+            from: new Date().getTime(),
+            to: new Date().getTime(),
+            description: "Test Description",
+        };
+        const date = "2024-03-17";
+        const index = 1;
+
+        const { getByText } = render(
+            <BookingModal closeFunc={closeFunc} isOpen={isOpen} availabilityData={availabilityData as Availability} date={date} index={index} />
+        );
+
+        fireEvent.press(getByText("Save"));
+
+        await waitFor(() => {
+            expect(updateAvailability).toHaveBeenCalledWith(date, availabilityData, index);
         });
+
+        expect(createAvailability).not.toHaveBeenCalled();
     });
 
-    //write test to validate that thew update function is called when the button on the modal is clicked but for create and update
+    test("calls createAvailability when save button is clicked for new availability", async () => {
+        const closeFunc = jest.fn();
+        const isOpen = true;
+        const date = "2024-03-17";
+        const index = -1;
+
+        const { getByText } = render(<BookingModal closeFunc={closeFunc} isOpen={isOpen} date={date} index={index} />);
+
+        fireEvent.press(getByText("Save"));
+
+        await waitFor(() => {
+            expect(createAvailability).toHaveBeenCalledWith(date, expect.any(Object));
+        });
+
+        expect(updateAvailability).not.toHaveBeenCalled();
+    });
 
     test("calls deleteAvailability when close button is clicked", () => {
         const { getByTestId } = render(

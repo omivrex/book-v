@@ -1,53 +1,127 @@
-# book-v
-An app for managing bookings and appointments for vendors
+# Book-v
 
-# TextComponent
+## Description
 
-The `TextComponent` is a customizable text component designed for use in React Native applications. It allows for easy styling of text elements with various predefined styles.
+Book-v is a mobile application designed to enable vendors to easily manage their availability.
 
-## Usage
+## Technologies Used
 
-```jsx
-import TextComponent from '../../components/Text.component';
+- React
+- React Native
+- Expo
+- Expo dev-client
+- TypeScript
+- Firebase
+- Node.js
+- Jest (for testing)
 
-<TextComponent
-  type="h1" // Type of text (optional)
-  style={{}} // Custom style object (optional)
-  color="black" // Text color (optional)
-  fontSize={20} // Font size (optional)
-  fontFamily="Poppins_600SemiBold" // Font family (optional)
-  center={true} // Center align text (optional)
->
-  Your Text Here
-</TextComponent>
+## Setup Instructions
 
+1. Clone the repository.
+2. Run `yarn install`.
+3. Download the development build of the application from [this link](https://expo.dev/artifacts/eas/46wEvG5g9beGMfa1CKa8Pa.tar.gz).
+4. Add the environment variable received via email.
+5. Run `yarn start` to start the development server.
 
-## CustTextInput
+## Key Components
+
+### React Native Responsive Screen
+
+The `react-native-responsive-screen` library is used to handle responsiveness by calculating sizes based on device DPI value.
+
+### CustTextInput
 
 A customizable text input component for React Native.
 
-### Props
+#### Props
 
-- `editable`: Boolean value to determine if the input is editable. Defaults to `true`.
+- `editable`: Boolean value to determine if the input is editable.
 - `placeholder`: Placeholder text for the input.
 - `defaultValue`: Default value for the input.
 - `value`: Current value of the input.
 - `maxLength`: Maximum length of the input.
-- `hidden`: Boolean value to determine if the input is hidden (e.g., for passwords). Defaults to `false`.
-- `multiLine`: Boolean value to determine if the input supports multiple lines. Defaults to `false`.
+- `hidden`: Boolean value to determine if the input is hidden.
+- `multiLine`: Boolean value to determine if the input supports multiple lines.
 - `onChange`: Function called when the input value changes.
 - `onFocus`: Function called when the input is focused.
 - `wrapperStyle`: Custom style object for the input wrapper.
 - `style`: Custom style object for the input text.
-- `keyboardType`: Type of keyboard to display (e.g., "numeric", "email-address").
+- `keyboardType`: Type of keyboard to display.
 
-#### Usage
+## TextComponent
 
-```jsx
-<InputComponent
-  type="text"
-  placeholder="Enter your text"
-  defaultValue=""
-  maxLength={50}
-  onChange={(text) => console.log(text)}
-/>
+TextComponent is a versatile text component for React Native that supports different text styles and font families.
+
+### Props
+
+- `type`: Type of text style to apply ("h1", "h2", "h3", "plain-bold", "plain-light", "plain").
+- `children`: Text content to display.
+- `style`: Custom style object for the text.
+- `color`: Color of the text.
+- `fontSize`: Font size of the text.
+- `fontFamily`: Font family for the text.
+- `center`: Boolean value to determine if the text should be centered.
+
+## CustButton
+
+CustButton is a customizable button component for React Native.
+
+### Props
+
+- `children`: Content to display inside the button.
+- `type`: Type of button ("close", "default", "rounded", "rounded-rect", "back", "forward").
+- `style`: Custom style object for the button.
+- `color`: Color of the button.
+- `size`: Size of the button icon.
+- `width`: Width of the button.
+- `testID`: Test ID for testing purposes.
+- `onPress`: Function to handle button press event.
+
+## Helper Functions
+### message
+This function displays a toast message.
+
+#### Params:
+
+- `msg`: string - The message to be displayed.
+-`status`: "success" | "failure" | undefined (optional) - Status of the message.
+-`duration`: "LONG" | "SHORT" | number (optional) - Duration for which the message should be displayed.
+
+### prepFileForUpload
+This function prepares a file for upload by extracting necessary information from it.
+
+#### Params:
+
+-`file`: ImagePickerAsset | DocumentPickerSuccessResult - The file to be prepared.
+-`type`: "document" | "image" - Type of file.
+
+### capitalize1stLetterOfEachWord
+This function capitalizes the first letter of each word in a sentence.
+
+#### Params:
+
+-`sentence`: string - The sentence to be capitalized.
+
+### truncateString
+This function truncates a string to a specified length and appends "..." if necessary.
+
+#### Params:
+
+-`string`: string - The string to be truncated.
+-`returnLength`: number (optional) - Length at which to truncate the string.
+
+### isValidEmail
+This function checks if a given string is a valid email address.
+
+#### Params:
+
+-`email`: string - The email address to be validated.
+
+### isValidPhonenumber
+This function checks if a given string is a valid phone number.
+
+#### Params:
+
+-`phoneNumber`: string - The phone number to be validated.
+-`countryCode`: any (optional) - The country code for the phone number.
+

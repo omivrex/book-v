@@ -18,9 +18,10 @@ interface props {
     availabilityData?: Availability;
     date?: string;
     index: number;
+    testID?: string;
 }
 
-const BookingModal = ({ closeFunc, isOpen, availabilityData, date, index }: props) => {
+const BookingModal = ({ closeFunc, isOpen, availabilityData, date, index, testID }: props) => {
     const formData = useRef<Availability>({} as Availability);
 
     useEffect(() => {
@@ -58,7 +59,12 @@ const BookingModal = ({ closeFunc, isOpen, availabilityData, date, index }: prop
 
     return (
         <Modal visible={isOpen} transparent animationType="fade">
-            <BlurView intensity={20} tint="dark" style={{ justifyContent: "center", height: hp("100%"), width: wp("100%"), alignItems: "center" }}>
+            <BlurView
+                testID={"booking-modal"}
+                intensity={20}
+                tint="dark"
+                style={{ justifyContent: "center", height: hp("100%"), width: wp("100%"), alignItems: "center" }}
+            >
                 <View
                     style={{
                         backgroundColor: colors.grey7,

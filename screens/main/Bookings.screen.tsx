@@ -40,6 +40,7 @@ const BookingScreen = () => {
         <Container>
             <View>
                 <Agenda
+                    testID="calendar-container"
                     theme={{
                         agendaDayTextColor: colors.red,
                         agendaDayNumColor: colors.red,
@@ -60,6 +61,7 @@ const BookingScreen = () => {
                     renderList={({ items }) => {
                         return (
                             <FlatList
+                                testID="rener-list"
                                 refreshControl={
                                     <RefreshControl
                                         titleColor={colors.yellow}
@@ -94,7 +96,7 @@ const BookingScreen = () => {
     );
 };
 
-const RenderItem = ({
+export const RenderItem = ({
     selectedDay,
     refreshFunc,
     index,
@@ -122,6 +124,7 @@ const RenderItem = ({
                 onPress={() => {
                     setopenBookingModal(true);
                 }}
+                testID="render-item"
             >
                 <View>
                     <TextComponent color={colors.white}>{capitalize1stLetterOfEachWord(availabilityData.name)}</TextComponent>
@@ -135,6 +138,7 @@ const RenderItem = ({
                     style={{ alignSelf: "flex-end" }}
                     color={colors.white}
                     size={hp("2%")}
+                    testID="close-button"
                 />
             </TouchableOpacity>
             {openBookingModal && (
@@ -146,6 +150,7 @@ const RenderItem = ({
                         setopenBookingModal(false);
                         refreshFunc();
                     }}
+                    testID="booking-modal"
                     index={index}
                 />
             )}
@@ -153,7 +158,7 @@ const RenderItem = ({
     );
 };
 
-const AddButn = ({ selectedDay, refreshFunc, activeDataIndex }: { selectedDay: string; refreshFunc: () => void; activeDataIndex: number }) => {
+export const AddButn = ({ selectedDay, refreshFunc, activeDataIndex }: { selectedDay: string; refreshFunc: () => void; activeDataIndex: number }) => {
     const [openBookingModal, setopenBookingModal] = useState<boolean>(false);
 
     useEffect(() => {}, [activeDataIndex]);
@@ -164,20 +169,23 @@ const AddButn = ({ selectedDay, refreshFunc, activeDataIndex }: { selectedDay: s
                 color={colors.yellow}
                 style={{ position: "absolute", alignSelf: "flex-end", top: hp("80%"), right: "5%", width: hp("7%"), height: hp("7%") }}
                 type="rounded"
+                testID="add-button"
                 onPress={() => setopenBookingModal(true)}
             >
                 <MaterialIcons name="add" size={hp("3.5%")} color={colors.black} />
             </CustButton>
-            <BookingModal
-                isOpen={openBookingModal}
-                date={selectedDay}
-                closeFunc={() => {
-                    activeDataIndex = -1;
-                    setopenBookingModal(false);
-                    refreshFunc();
-                }}
-                index={-1}
-            />
+            <View testID="booking-modal">
+                <BookingModal
+                    isOpen={openBookingModal}
+                    date={selectedDay}
+                    closeFunc={() => {
+                        activeDataIndex = -1;
+                        setopenBookingModal(false);
+                        refreshFunc();
+                    }}
+                    index={-1}
+                />
+            </View>
         </>
     );
 };

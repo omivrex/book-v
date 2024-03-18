@@ -19,7 +19,7 @@ import TextComponent from '../../components/Text.component';
   center={true} // Center align text (optional)
 >
   Your Text Here
-</TextComponent> ```
+</TextComponent>
 
 
 ## CustTextInput
@@ -43,7 +43,7 @@ A customizable text input component for React Native.
 
 #### Usage
 
-```markdown
+```jsx
 <InputComponent
   type="text"
   placeholder="Enter your text"

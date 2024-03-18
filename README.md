@@ -125,3 +125,45 @@ This function checks if a given string is a valid phone number.
 -`phoneNumber`: string - The phone number to be validated.
 -`countryCode`: any (optional) - The country code for the phone number.
 
+# BookingScreen Documentation
+
+The `BookingScreen` component is responsible for displaying a calendar view with booked dates and available slots for bookings. It utilizes various sub-components and libraries to provide this functionality efficiently.
+
+## Overview
+
+The component consists of a calendar view (`Agenda` from `react-native-calendars`) to display booked dates and available slots. Users can interact with the calendar to select dates and view available slots for booking appointments.
+
+### Libraries Used:
+- `react-native`
+- `react-native-calendars`
+- `moment`
+- `@expo/vector-icons`
+- `@tanstack/react-query`
+
+## Usage
+
+### Props
+- No props are passed to this component directly.
+
+## Sub-components
+1. RenderItem
+#### Props:
+- `selectedDay`: string - The selected day for which availability is being rendered.
+-`refreshFunc`: () => void - Function to refresh the availability data.
+-`index`: number - Index of the availability item.
+-`availabilityData`: Availability - Data representing the availability slot.
+This component renders each availability slot within the FlatList of the Agenda component. It displays the availability name, description, and provides an option to delete the availability slot.
+
+2. AddButn
+#### Props:
+-`selectedDay`: string - The selected day for which availability is being added.
+-`refreshFunc`: () => void - Function to refresh the availability data.
+-`activeDataIndex`: number - Index of the active availability data.
+This component renders an "Add" button allowing users to add new availability slots. It opens a modal to input details for a new availability slot.
+
+## Performance Considerations
+The Agenda component can be resource-intensive, especially when rendering a large number of items. Hence, it's essential to optimize the rendering of sub-components like RenderItem and AddButn. These components should be lightweight and efficient to ensure smooth performance.
+
+## Conclusion
+The BookingScreen component provides a comprehensive interface for managing bookings efficiently. By utilizing optimized sub-components and libraries, it ensures a smooth user experience even when dealing with a heavy calendar component.
+

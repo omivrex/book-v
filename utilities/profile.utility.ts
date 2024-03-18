@@ -11,7 +11,7 @@ export const validateUpdateData = (formDetails: UserDataType) => {
     } else if (!isValidPhonenumber(formDetails.phone)) {
         message("Input a valid phone number", "failure");
         return false;
-    } else if (formDetails.fullName) {
+    } else if (!formDetails.fullName.length) {
         message("Input Your full name", "failure");
         return false;
     } else if (!formDetails.businessName) {

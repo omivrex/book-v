@@ -22,7 +22,6 @@ interface props {
 }
 
 const SettingsScreen = ({ navigation, route }: props) => {
-    const palceApi = useRef<GooglePlacesAutocompleteRef>();
     const userDataContext = useContext(UserDataContext);
 
     const formDetails = useRef<UserDataType>({
@@ -76,7 +75,6 @@ const SettingsScreen = ({ navigation, route }: props) => {
                         />
                         <GooglePlacesAutocomplete
                             placeholder=""
-                            ref={palceApi as Ref<GooglePlacesAutocompleteRef>}
                             query={{
                                 key: process.env.EXPO_PUBLIC_PLACES_API_KEY,
                                 language: "en",

@@ -19,7 +19,7 @@ Book-v is a mobile application designed to enable vendors to easily manage their
 
 1. Clone the repository.
 2. Run `yarn install`.
-3. Download the development build of the application from [this link](https://expo.dev/artifacts/eas/46wEvG5g9beGMfa1CKa8Pa.tar.gz).
+3. Download and install the development build of the application from [this link](https://expo.dev/artifacts/eas/46wEvG5g9beGMfa1CKa8Pa.tar.gz). into your ios simulator
 4. Add the environment variable received via email.
 5. Run `yarn start` to start the development server.
 

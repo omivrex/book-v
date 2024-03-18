@@ -125,7 +125,7 @@ This function checks if a given string is a valid phone number.
 -`phoneNumber`: string - The phone number to be validated.
 -`countryCode`: any (optional) - The country code for the phone number.
 
-# BookingScreen Documentation
+# Booking Screen Documentation
 
 The `BookingScreen` component is responsible for displaying a calendar view with booked dates and available slots for bookings. It utilizes various sub-components and libraries to provide this functionality efficiently.
 

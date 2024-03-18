@@ -8,7 +8,7 @@ The `TextComponent` is a customizable text component designed for use in React N
 ## Usage
 
 ```jsx
-import TextComponent from 'path/to/TextComponent';
+import TextComponent from '../../components/Text.component';
 
 <TextComponent
   type="h1" // Type of text (optional)
@@ -19,4 +19,4 @@ import TextComponent from 'path/to/TextComponent';
   center={true} // Center align text (optional)
 >
   Your Text Here
-</TextComponent> ```
+</TextComponent> 
